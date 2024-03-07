@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## TO BE INSTALLED
+npm install react-router-dom@6 react-icons react-responsive
+
 ## Available Scripts
 
 In the project directory, you can run:
