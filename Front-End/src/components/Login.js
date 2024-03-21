@@ -43,6 +43,9 @@ function Login() {
     if (isSuccess) {
       navigate("/userdashboard");
     }
+    if (isError) {
+      alert("Error ", isError)
+    }
   }, [isSuccess, isError]);
 
   return (
