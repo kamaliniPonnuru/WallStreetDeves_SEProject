@@ -13,7 +13,7 @@ import { clearLoginStatus } from "../../slices/userSlice";
 import { useDispatch } from "react-redux";
 import Userdashboard from "../userdashboard/Userdashboard";
 import { useNavigate, Navigate } from "react-router-dom";
-import Posts from "../posts/Posts";
+import Posts from "../Posts/Posts";
 import NewPost from "../NewPost/NewPost";
 
 function Header() {
