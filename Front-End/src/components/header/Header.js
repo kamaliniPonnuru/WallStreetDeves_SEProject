@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Header.css";
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Container, Nav, Navbar, NavDropdown, Modal, Button, Form } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import Home from "../Home";
@@ -12,27 +12,64 @@ import { useSelector } from "react-redux";
 import { clearLoginStatus } from "../../slices/userSlice";
 import { useDispatch } from "react-redux";
 import Userdashboard from "../userdashboard/Userdashboard";
-import { useNavigate ,Navigate} from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import Posts from "../Posts/Posts";
-import Post from "../Posts/Post/Post";
+import NewPost from "../NewPost/NewPost";
 
 function Header() {
-  //get state from store
-  let { userObj, isError, isLoading, isSuccess, errMsg } = useSelector(
-    (state) => state.user
-  );
-  //get dispathc function
-  let dispath = useDispatch();
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword,setConfirmNewPassword] =useState("")
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isSuccess, userObj } = useSelector((state) => state.user);
 
-  //get navigate function
-  let navigate = useNavigate();
-
-  //logout user
+  // Function to handle password change
+  const handleChangePassword = async () => {
+    if (newPassword !== confirmNewPassword) {
+      alert("Passwords do not match")
+      return;
+    }
+  
+    try {
+      const response = await fetch("/user-api/change-password", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: userObj.username, newPassword }),
+      });
+  
+      if (response.ok) {
+        setNewPassword("");
+        setConfirmNewPassword("");
+        setSuccessMessage("Password updated successfully");
+        setError("");
+        alert("Password updated successfully");
+      } else {
+        const data = await response.json();
+        setError(data.message);
+        setSuccessMessage("");
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Error updating password:", error);
+      setError("Failed to update password");
+      setSuccessMessage("");
+      alert("Failed to update password");
+    }
+  };
+  
+  // Function to handle user logout
   const userLogout = () => {
+    // Perform logout actions here
     localStorage.clear();
-    dispath(clearLoginStatus());
+    dispatch(clearLoginStatus());
     navigate("/login");
   };
+
 
   return (
     <div>
@@ -92,9 +129,11 @@ function Header() {
                   <NavDropdown
                     title={userObj.username}
                     //id="collasible-nav-dropdown"
-                     id="drop-down"
+                    id="drop-down"
                   >
-                    <NavDropdown.Item>Change password</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => setShowChangePasswordModal(true)}>
+                      Change password
+                    </NavDropdown.Item>
 
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={userLogout}>
@@ -113,13 +152,49 @@ function Header() {
         <Route path="/login" element={<Login />} />
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/posts" element={<Posts />} />
-        <Route path="/post/:id" element={<Post/>}/>
         <Route path="events" element={<Userprofile />} />
+        <Route path="/new-post" element={<NewPost />} />
         <Route path="/userdashboard" element={<Userdashboard />}>
           <Route path="profile" element={<Userprofile />} />
           <Route path="" element={<Navigate to="profile" replace={true} />} />
         </Route>
       </Routes>
+
+      {/* Change Password Modal */}
+      <Modal show={showChangePasswordModal} onHide={() => setShowChangePasswordModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Change Password</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group controlId="formNewPassword">
+            <Form.Label>New Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter new password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formConfirmNewPassword">
+            <Form.Label>Confirm New Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Confirm new password"
+              value={confirmNewPassword}
+              onChange={(e) => setConfirmNewPassword(e.target.value)}
+            />
+          </Form.Group>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowChangePasswordModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleChangePassword}>
+            Change Password
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
