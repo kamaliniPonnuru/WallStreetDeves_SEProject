@@ -1,13 +1,14 @@
 import React from "react";
 import homeImg from "../images/main_pic.png";
 import { Container } from "react-bootstrap";
+import Carousel from "./Corousel/Corousel";
 
 function Home() {
   return (
     <Container className="text-center">
-      {/* <div className="display-1 text-center text-primary fw-bold">Alma Mingle</div> */}
       <div className="d-flex justify-content-center">
         <img src={homeImg} alt="" className="w-50 shadow-lg rounded mt-5" />
+        <Carousel />
       </div>
       <p className="py-4">
         <strong>Welcome to AlmaMingle: Connect, Learn, Thrive!</strong>

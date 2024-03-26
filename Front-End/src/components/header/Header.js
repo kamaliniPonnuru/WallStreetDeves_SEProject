@@ -13,7 +13,7 @@ import { clearLoginStatus } from "../../slices/userSlice";
 import { useDispatch } from "react-redux";
 import Userdashboard from "../userdashboard/Userdashboard";
 import { useNavigate, Navigate } from "react-router-dom";
-import Posts from "../posts/Posts";
+import Posts from "../Posts/Posts";
 import NewPost from "../NewPost/NewPost";
 
 function Header() {
@@ -152,9 +152,11 @@ function Header() {
         <Route path="/login" element={<Login />} />
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/posts" element={<Posts />} />
-        <Route path="events" element={<UserProfile />} />
+        <Route path="/events" element={<Userprofile />} />
         <Route path="/new-post" element={<NewPost />} />
-        <Route path="/userdashboard" element={<Userdashboard />} />
+        <Route path="/profile" element={<Userprofile />} />
+        <Route path="/userdashboard" element={<Userdashboard />}>
+        </Route>
       </Routes>
 
       {/* Change Password Modal */}

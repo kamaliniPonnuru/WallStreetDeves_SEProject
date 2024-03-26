@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Nav } from "react-bootstrap";
 import { Outlet, NavLink } from "react-router-dom";
 import { Link, Routes, Route } from 'react-router-dom';
-import UserProfile from "../userprofile/UserProfile";
+import UserProfile from "../userprofile/Userprofile";
 import NewPost from "../NewPost/NewPost";
 
 
@@ -38,6 +38,13 @@ function Userdashboard() {
               </div>
             </Link>
           </div>
+          <div className="user-dashboard-card">
+            <Link to="/edit-profile" className="user-dashboard-card-link">
+              <div className="user-dashboard-card-content">
+                <h3>Edit Profile</h3>
+              </div>
+            </Link>
+          </div>
         </div>
 
         <div className="user-dashboard">
@@ -46,8 +53,8 @@ function Userdashboard() {
 
           <div>
             <Routes>
-              <Route path="/profile" element={<UserProfile />} />
               <Route path="/new-post" element={<NewPost />} />
+              <Route path="/profile" element={<Userprofile />} />
             </Routes>
           </div>
         </div>
