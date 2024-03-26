@@ -55,7 +55,7 @@ function Userdashboard() {
         </div>
         <div className="userdashboard-container">
           <div className="user-dashboard-card">
-            <Link to="/userdashboard/profile" className="user-dashboard-card-link">
+            <Link to="/profile" className="user-dashboard-card-link">
               <div className="user-dashboard-card-content">
                 <h3>View Profile</h3>
               </div>
@@ -69,7 +69,7 @@ function Userdashboard() {
             </Link>
           </div>
           <div className="user-dashboard-card">
-            <Link to="/userdashboard/edit-profile" className="user-dashboard-card-link">
+            <Link to="/edit-profile" className="user-dashboard-card-link">
               <div className="user-dashboard-card-content">
                 <h3>Edit Profile</h3>
               </div>
@@ -83,8 +83,8 @@ function Userdashboard() {
 
           <div>
             <Routes>
-              <Route path="/userdashboard/profile" element={<Userprofile />} />
               <Route path="/new-post" element={<NewPost />} />
+              <Route path="/profile" element={<Userprofile />} />
             </Routes>
           </div>
         </div>

@@ -152,11 +152,10 @@ function Header() {
         <Route path="/login" element={<Login />} />
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/posts" element={<Posts />} />
-        <Route path="events" element={<Userprofile />} />
+        <Route path="/events" element={<Userprofile />} />
         <Route path="/new-post" element={<NewPost />} />
+        <Route path="/profile" element={<Userprofile />} />
         <Route path="/userdashboard" element={<Userdashboard />}>
-          <Route path="profile" element={<Userprofile />} />
-          <Route path="" element={<Navigate to="profile" replace={true} />} />
         </Route>
       </Routes>
 
