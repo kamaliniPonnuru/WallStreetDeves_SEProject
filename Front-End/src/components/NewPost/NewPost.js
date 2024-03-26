@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from "react-redux";
 import axios from 'axios';
 import './NewPost.css';
 import { useForm } from "react-hook-form";
@@ -12,9 +13,12 @@ function NewPost() {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
+  let { userObj } = useSelector((state) => state.user);
 
   const onFormSubmit = async (postObj) => {
     try {
+      // Add current user's name to the postObj
+      postObj.createdBy = userObj.username;
 
       const formData = new FormData();
       console.log(postObj);
@@ -29,12 +33,12 @@ function NewPost() {
 
       console.log("New Post Added:", response.data);
       alert(response.data.message);
-      if(response.data.message=="New Post Added"){
-        navigate('/posts')
+      if(response.data.message === "New Post Added"){
+        navigate('/posts');
       }
     } catch (error) {
       console.error("Error adding new post:", error);
-      alert(error)
+      alert(error);
     }
   };
 
