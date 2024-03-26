@@ -7,7 +7,7 @@ function Home() {
   return (
     <Container className="text-center">
       <div className="d-flex justify-content-center">
-        <img src={homeImg} alt="" className="w-50 shadow-lg rounded mt-5" />
+        {/* <img src={homeImg} alt="" className="w-50 shadow-lg rounded mt-5" /> */}
         <Carousel />
       </div>
       <p className="py-4">

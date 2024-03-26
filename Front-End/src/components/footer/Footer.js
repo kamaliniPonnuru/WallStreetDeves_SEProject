@@ -5,7 +5,8 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer-left">
-        AlmaMingle <strong>University of North Texas</strong>, All Rights Reserved
+        AlmaMingle<br />
+        <strong>University of North Texas</strong>, All Rights Reserved
         © {new Date().getFullYear()}
       </div>
       
