@@ -2,6 +2,7 @@
 const exp = require("express");
 const postApp = exp.Router();
 const expressAsyncHandler = require("express-async-handler");
+const { ObjectId } = require('mongodb');
 require("dotenv").config();
 const verifyToken = require('./middlewares/verifyToken')
 postApp.use(exp.json());
@@ -32,6 +33,72 @@ postApp.post(
         response.send({ message: "New Post created" });
     })
 );
+
+postApp.post(
+  "/reportpost/:postId",
+  expressAsyncHandler(async (request, response) => {
+    // Get postCollectionObject
+    let postCollectionObject = request.app.get("postCollectionObject");
+    let reportPostCollectionObject = request.app.get("reportPostCollectionObject");
+    
+    const postId = request.params.postId;
+
+    try {
+      // Check if the post with the given postId exists
+      const post = await postCollectionObject.findOne({ _id: new ObjectId(postId) });
+      console.log(post)
+      if (!post) {
+        response.status(404).send({ message: "Post not found" });
+        return;
+      }
+
+      // Check if the post already exists in reportPostCollectionObject
+      const existingReport = await reportPostCollectionObject.findOne({ "post._id": post._id });
+      if (existingReport) {
+        // If the post exists, increase the count
+        await reportPostCollectionObject.updateOne({ "post._id": post._id }, { $inc: { count: 1 } });
+      } else {
+        // If the post does not exist, insert it with count 1
+        await reportPostCollectionObject.insertOne({ post, count: 1 });
+      }
+      
+      response.send({ message: "Post reported successfully" });
+    } catch (error) {
+      console.error("Error reporting post:", error);
+      response.status(500).send({ message: "Internal server error" });
+    }
+  })
+);
+postApp.put(
+  "/edit-post/:postId",
+  expressAsyncHandler(async (request, response) => {
+    try {
+      const postId = request.params.postId;
+      const { title, content, category } = request.body; // Assuming these are the fields you want to update
+
+      // Get postCollectionObject
+      let postCollectionObject = request.app.get("postCollectionObject");
+
+      // Check if the post with the given postId exists
+      const post = await postCollectionObject.findOne({ _id: new ObjectId(postId) });
+      if (!post) {
+        return response.status(404).send({ message: "Post not found" });
+      }
+
+      // Update the post with the new values
+      await postCollectionObject.updateOne(
+        { _id: new ObjectId(postId) },
+        { $set: { title, content, category } }
+      );
+
+      response.send({ message: "Post updated successfully" });
+    } catch (error) {
+      console.error("Error updating post:", error);
+      response.status(500).send({ message: "Internal server error" });
+    }
+  })
+);
+
 
 const ITEMS_PER_PAGE = 10;
 
@@ -81,14 +148,15 @@ postApp.delete(
   
       try {
         // Check if the post with the given postId exists
-        const post = await postCollectionObject.findOne({ _id: postId });
+        const post = await postCollectionObject.findOne({ _id: new ObjectId(postId) });
+        console.log(post)
         if (!post) {
           response.status(404).send({ message: "Post not found" });
           return;
         }
   
         // Delete the post
-        await postCollectionObject.deleteOne({ _id: postId });
+        await postCollectionObject.deleteOne({ _id: new ObjectId(postId) });
         
         response.send({ message: "Post deleted successfully" });
       } catch (error) {

@@ -26,11 +26,13 @@ mclient.connect(dbUrl)
   let userCollectionObject=dbObj.collection("usercollection");
   let adminCollectionObject=dbObj.collection("admincollection");
   let postCollectionObject=dbObj.collection("postcollection");
+  let reportPostCollectionObject=dbObj.collection("reportpostcollection");
 
   //sharing collection objects to APIs
   app.set("userCollectionObject",userCollectionObject);
   app.set("adminCollectionObject",adminCollectionObject);
   app.set('postCollectionObject',postCollectionObject)
+  app.set("reportPostCollectionObject",reportPostCollectionObject);
 
   console.log("DB connection success")
 })

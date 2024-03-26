@@ -20,7 +20,7 @@ function Userdashboard() {
     <>
       <>
         <div style={{ display: 'flex', alignItems: 'center', marginTop:'40px', marginLeft:'30px' }}>
-          <h3 style={{ marginRight: '10px' }}>Hello, {userObj.username}!</h3>
+          <h3 style={{ marginRight: '10px' }}>Hello, {userObj.name}!</h3>
           <h5>Connect with your alumni network.</h5>
         </div>
         <div className="userdashboard-container">
@@ -35,13 +35,6 @@ function Userdashboard() {
             <Link to="/new-post" className="user-dashboard-card-link">
               <div className="user-dashboard-card-content">
                 <h3>Create New Post</h3>
-              </div>
-            </Link>
-          </div>
-          <div className="user-dashboard-card">
-            <Link to="/edit-profile" className="user-dashboard-card-link">
-              <div className="user-dashboard-card-content">
-                <h3>Edit Profile</h3>
               </div>
             </Link>
           </div>

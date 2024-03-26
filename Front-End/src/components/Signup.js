@@ -63,6 +63,19 @@ function Signup() {
       <div className="row">
         <div className="col-12 col-sm-8 col-md-6 mx-auto">
           <Form onSubmit={handleSubmit(onFormSubmit)}>
+             {/* username */}
+             <Form.Group className="mb-3">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter your Name"
+                {...register("name", { required: true })}
+              />
+              {/* validation error message for username */}
+              {errors.name && (
+                <p className="text-danger">* Name is required</p>
+              )}
+            </Form.Group>
             {/* username */}
             <Form.Group className="mb-3">
               <Form.Label>Username</Form.Label>
