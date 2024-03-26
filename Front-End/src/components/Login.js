@@ -19,7 +19,7 @@ function Login() {
     (state) => state.user
   );
 
-  //get dispathc function to call action creator functions
+  //get dispatch function to call action creator functions
   let dispatch = useDispatch();
 
   //get navigate functon to navigate programatically
@@ -59,9 +59,9 @@ function Login() {
         alt=""
       /> */}
       <div className="row  ">
-        <div className="col-12 col-sm-8 col-md-6  mx-auto">
+        <div className="col-12 col-sm-8 col-md-6 mx-auto">
           <Form onSubmit={handleSubmit(onFormSubmit)}>
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3 custom-form-group">
               <Form.Label>Select type of User</Form.Label> <br />
               {/* user type */}
               <Form.Check inline type="radio" id="user">
@@ -81,6 +81,9 @@ function Login() {
                 <Form.Check.Label>Admin</Form.Check.Label>
               </Form.Check>
             </Form.Group>
+
+
+
             {/* username */}
             <Form.Group className="mb-3">
               <Form.Label>Username</Form.Label>
@@ -109,7 +112,7 @@ function Login() {
               )}
             </Form.Group>
 
-            <Button variant="secondary" type="submit">
+            <Button className="general_button" type="submit">
               Login
             </Button>
           </Form>

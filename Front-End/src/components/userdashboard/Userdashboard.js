@@ -7,7 +7,7 @@ import { Outlet, NavLink } from "react-router-dom";
 import { Link, Routes, Route } from 'react-router-dom';
 import UserProfile from "../userprofile/UserProfile";
 import NewPost from "../NewPost/NewPost";
-
+import Posts from "../Posts/Posts";
 
 function Userdashboard() {
   let { userObj } = useSelector((state) => state.user);
@@ -23,29 +23,55 @@ function Userdashboard() {
           <h3 style={{ marginRight: '10px' }}>Hello, {userObj.username}!</h3>
           <h5>Connect with your alumni network.</h5>
         </div>
+
         <div className="userdashboard-container">
-          <div className="user-dashboard-card">
-            <Link to="/profile" className="user-dashboard-card-link">
-              <div className="user-dashboard-card-content">
-                <h3>Profile</h3>
-              </div>
+          <div class="user-dashboard-cards">
+            <Link to="/profile">
+              <figure class="user-dashboard-card">
+                <figcaption class="user-dashboard-card_title">
+                  View Profile
+                </figcaption>
+              </figure>
             </Link>
           </div>
-          <div className="user-dashboard-card">
-            <Link to="/new-post" className="user-dashboard-card-link">
-              <div className="user-dashboard-card-content">
-                <h3>Create New Post</h3>
-              </div>
+          <div class="user-dashboard-cards">
+            <Link to="/posts">
+              <figure class="user-dashboard-card">
+                <figcaption class="user-dashboard-card_title">
+                 Posts
+                </figcaption>
+              </figure>
             </Link>
           </div>
-          <div className="user-dashboard-card">
-            <Link to="/edit-profile" className="user-dashboard-card-link">
-              <div className="user-dashboard-card-content">
-                <h3>Edit Profile</h3>
-              </div>
+          <div class="user-dashboard-cards">
+            <Link to="/events">
+              <figure class="user-dashboard-card">
+                <figcaption class="user-dashboard-card_title">
+                  Events
+                </figcaption>
+              </figure>
+            </Link>
+          </div>
+          <div class="user-dashboard-cards">
+            <Link to="#">
+              <figure class="user-dashboard-card">
+                <figcaption class="user-dashboard-card_title">
+                  Notification
+                </figcaption>
+              </figure>
+            </Link>
+          </div>
+          <div class="user-dashboard-cards">
+            <Link to="#">
+              <figure class="user-dashboard-card">
+                <figcaption class="user-dashboard-card_title">
+                  Messages
+                </figcaption>
+              </figure>
             </Link>
           </div>
         </div>
+
 
         <div className="user-dashboard">
           <div className="user-dashboard-sidebar">
@@ -55,6 +81,7 @@ function Userdashboard() {
             <Routes>
               <Route path="/new-post" element={<NewPost />} />
               <Route path="/profile" element={<UserProfile />} />
+              <Route path="/posts" element={<Posts />} />
             </Routes>
           </div>
         </div>
