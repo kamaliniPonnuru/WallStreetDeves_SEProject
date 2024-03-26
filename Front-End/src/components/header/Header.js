@@ -15,6 +15,7 @@ import Userdashboard from "../userdashboard/Userdashboard";
 import { useNavigate, Navigate } from "react-router-dom";
 import Posts from "../Posts/Posts";
 import NewPost from "../NewPost/NewPost";
+import homeImg from "../../images/main_pic.png";
 
 function Header() {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
@@ -75,7 +76,9 @@ function Header() {
     <div>
       <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">Alma Mingle</Navbar.Brand>
+          <Navbar.Brand href="/">
+            <img src={homeImg} alt="" className="shadow-lg rounded" style={{height:60,width:150}} />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ms-auto">
@@ -152,9 +155,9 @@ function Header() {
         <Route path="/login" element={<Login />} />
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/posts" element={<Posts />} />
-        <Route path="/events" element={<Userprofile />} />
+        <Route path="/events" element={<UserProfile />} />
         <Route path="/new-post" element={<NewPost />} />
-        <Route path="/profile" element={<Userprofile />} />
+        <Route path="/profile" element={<UserProfile />} />
         <Route path="/userdashboard" element={<Userdashboard />}>
         </Route>
       </Routes>
