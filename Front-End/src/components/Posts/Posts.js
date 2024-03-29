@@ -5,9 +5,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -152,11 +149,21 @@ const Posts = () => {
               <li key={post._id} className="list-group-item" style={{ marginBottom: index < posts.length - 1 ? '20px' : '0' }}>
                 {viewType === 'my' && post.createdBy === userObj.username ? (
                   <div className="d-flex justify-content-between align-items-center">
-                    <div>
+                    {/* <div>
                       <h3>{post.title}</h3>
                       <p>{post.content}</p>
                       <p>Category: {post.category}</p>
+                    </div> */}
+                  <Link to="/posts/{post.id}">
+                  <div class="card">
+                    <div class="content">
+                      <p class="heading">{post.title}</p>
+                      <p class="para">
+                      {post.content}
+                      </p>
                     </div>
+                  </div>
+                  </Link>
                     <DropdownButton
                       align="end"
                       title={<span style={{ color: 'inherit' }}>&#8942;</span>}

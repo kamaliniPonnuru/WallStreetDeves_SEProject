@@ -137,7 +137,7 @@ function Signup() {
               )}
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button className="general_button" variant="primary" type="submit">
               Signup <MdLogin />
             </Button>
           </Form>
