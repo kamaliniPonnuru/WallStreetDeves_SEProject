@@ -78,7 +78,7 @@ userApp.put('/editprofile', expressAsyncHandler(async (req, res) => {
   const { name, email, username, original_username } = req.body; 
 
   try {
-    // Find the user by their username
+    
     const userCollectionObject = req.app.get("userCollectionObject");
     const user = await userCollectionObject.findOne({ original_username });
 
@@ -86,7 +86,6 @@ userApp.put('/editprofile', expressAsyncHandler(async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Update the user data
     if (name) user.name = name;
     if (email) user.email = email;
     if (username) user.username = username;

@@ -5,6 +5,11 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { Modal, Button, Form } from 'react-bootstrap';
+import { Link, Routes, Route } from 'react-router-dom';
+import { BsPlus } from 'react-icons/bs';
+import NewPost from "../NewPost/NewPost";
+
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -86,6 +91,17 @@ const Posts = () => {
     }
   };
 
+  const buttonStyle = {
+    padding: '10px 20px',
+    borderRadius: '5px',
+    backgroundColor: '#007bff',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+  };
+
   return (
     <div>
       {/* Navigation Bar */}
@@ -110,7 +126,20 @@ const Posts = () => {
         </Navbar.Collapse>
       </Navbar>
 
-      {/* Edit Post Modal */}
+      <div className='container mt-3' style={{ textDecoration: 'none' }}>
+        <div className='col-12'>
+          {/* <div className='col-10'></div> */}
+          <div >
+            <Link to="/new-post" style={{ textDecoration: 'none', marginLeft: 'auto' }}>
+              <button style={buttonStyle}>
+                <span>Add new post</span>
+                <span style={{ marginLeft: '5px' }}>+</span>
+              </button>
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <Modal show={showEditModal} onHide={handleCloseEditModal}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Post</Modal.Title>
@@ -149,21 +178,21 @@ const Posts = () => {
               <li key={post._id} className="list-group-item" style={{ marginBottom: index < posts.length - 1 ? '20px' : '0' }}>
                 {viewType === 'my' && post.createdBy === userObj.username ? (
                   <div className="d-flex justify-content-between align-items-center">
-                    {/* <div>
+                    <div>
                       <h3>{post.title}</h3>
                       <p>{post.content}</p>
                       <p>Category: {post.category}</p>
-                    </div> */}
-                  <Link to="/posts/{post.id}">
-                  <div class="card">
-                    <div class="content">
-                      <p class="heading">{post.title}</p>
-                      <p class="para">
-                      {post.content}
-                      </p>
                     </div>
-                  </div>
-                  </Link>
+                    {/* <Link to="/posts/{post.id}">
+                      <div class="card">
+                        <div class="content">
+                          <p class="heading">{post.title}</p>
+                          <p class="para">
+                            {post.content}
+                          </p>
+                        </div>
+                      </div>
+                    </Link> */}
                     <DropdownButton
                       align="end"
                       title={<span style={{ color: 'inherit' }}>&#8942;</span>}
@@ -211,7 +240,13 @@ const Posts = () => {
           </ul>
         </nav>
       </div>
+      <div>
+        <Routes>
+          <Route path="/new-post" element={<NewPost />} />
+        </Routes>
+      </div>
     </div>
+
   );
 };
 

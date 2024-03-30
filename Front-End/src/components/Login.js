@@ -1,10 +1,9 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Form, Button } from "react-bootstrap";
-// import loginImg from "../images/login.svg";
+import { Form, Button, Spinner, Alert } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { userLogin } from "../slices/userSlice";
-
+import { adminLogin } from "../slices/adminSlice";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -14,56 +13,45 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  //get user state from redux
-  let { userObj, isError, isLoading, isSuccess, errMsg } = useSelector(
+  const { isError, isLoading, isSuccess, errMsg } = useSelector(
     (state) => state.user
   );
+  const { isError: adminIsError, isLoading: adminIsLoading, isSuccess: adminIsSuccess, errMsg: adminErrMsg } = useSelector(
+    (state) => state.admin
+  );
 
-  //get dispatch function to call action creator functions
-  let dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  //get navigate functon to navigate programatically
-  let navigate = useNavigate();
-
-  //when login form is submitted
   const onFormSubmit = (userCredentialsObject) => {
-     // console.log(userCredentialsObject)
     if (userCredentialsObject.userType === "user") {
       dispatch(userLogin(userCredentialsObject));
-    }
-
-    if (userCredentialsObject.userType === "admin") {
-      alert("Admin devoloplment in progress...");
-      // dispatch(userLogin(userCredentialsObject));
+    } else if (userCredentialsObject.userType === "admin") {
+      dispatch(adminLogin(userCredentialsObject));
     }
   };
 
-  //this to be executed when either isSuccess or isError changed
+
   useEffect(() => {
     if (isSuccess) {
+      const userType = localStorage.getItem('userType');
+      console.log(userType)
+      console.log(adminIsSuccess)
       navigate("/userdashboard");
     }
-    if (isError) {
-      alert("Error ", isError)
+    else if(adminIsSuccess){
+      navigate("/admindashboard" );
     }
-  }, [isSuccess, isError]);
+  }, [isSuccess, adminIsSuccess]);
 
   return (
     <div className="container">
       <p className="display-2 text-center text-primary">Login</p>
-
-      {/* <img
-        src={loginImg}
-        width="300px"
-        className="d-sm-block d-none mx-auto"
-        alt=""
-      /> */}
-      <div className="row  ">
+      <div className="row">
         <div className="col-12 col-sm-8 col-md-6 mx-auto">
           <Form onSubmit={handleSubmit(onFormSubmit)}>
             <Form.Group className="mb-3 custom-form-group">
-              <Form.Label>Select type of User</Form.Label> <br />
-              {/* user type */}
+              <Form.Label>Select User Type</Form.Label> <br />
               <Form.Check inline type="radio" id="user">
                 <Form.Check.Input
                   type="radio"
@@ -82,9 +70,6 @@ function Login() {
               </Form.Check>
             </Form.Group>
 
-
-
-            {/* username */}
             <Form.Group className="mb-3">
               <Form.Label>Username</Form.Label>
               <Form.Control
@@ -92,13 +77,11 @@ function Login() {
                 placeholder="Enter Username"
                 {...register("username", { required: true })}
               />
-              {/* validation error message for username */}
               {errors.username && (
                 <p className="text-danger">* Username is required</p>
               )}
             </Form.Group>
 
-            {/* password */}
             <Form.Group className="mb-3">
               <Form.Label>Password</Form.Label>
               <Form.Control
@@ -106,15 +89,20 @@ function Login() {
                 placeholder="Enter Password"
                 {...register("password", { required: true })}
               />
-              {/* validation error message for password */}
               {errors.password && (
                 <p className="text-danger">* Password is required</p>
               )}
             </Form.Group>
 
-            <Button className="general_button" type="submit">
-              Login
+            <Button className="general_button" type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <Spinner animation="border" size="sm" />
+              ) : (
+                "Login"
+              )}
             </Button>
+
+            {isError && <Alert variant="danger">{errMsg}</Alert>}
           </Form>
         </div>
       </div>

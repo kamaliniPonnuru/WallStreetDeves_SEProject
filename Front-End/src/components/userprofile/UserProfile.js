@@ -20,18 +20,29 @@ function UserProfile() {
   };
 
   const handleSave = () => {
-    
-    var original_username = userObj.username;
+    const original_username = userObj.username;
     const updatedUserData = { name, email, username, original_username };
+  
     axios.put('http://localhost:4000/user-api/editprofile', updatedUserData)
       .then(response => {
-        if(response.status === 200){
+        if (response.status === 200) {
           alert("Profile updated successfully");
+          setEditing(false);
+  
+          // Fetch updated user data and update userObj state
+          // Example:
+          // axios.get('http://localhost:4000/user-api/userdata')
+          //   .then(response => {
+          //     setUserObj(response.data);
+          //   })
+          //   .catch(error => console.error(error));
+        } else {
+          console.error('Error updating profile:', response.data);
         }
-        setEditing(false);
       })
-      .catch(error => console.log(error));
+      .catch(error => console.error('Error updating profile:', error));
   };
+  
 
   return (
     <div className="user-profile-container">
