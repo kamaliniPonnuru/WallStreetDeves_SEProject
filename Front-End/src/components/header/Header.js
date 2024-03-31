@@ -17,6 +17,7 @@ import Posts from "../Posts/Posts";
 import NewPost from "../NewPost/NewPost";
 import homeImg from "../../images/main_pic.png";
 import Admindashboard from '../admin/admindashboard/Admindashboard'
+import Messages from "../messages/Messages";
 
 function Header() {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
@@ -191,6 +192,7 @@ function Header() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/userdashboard" element={<Userdashboard />} />
         <Route path="/admindashboard" element={<Admindashboard />} />
+        <Route path="/messages" element={<Messages />} />
       </Routes>
 
       {/* Change Password Modal */}
