@@ -1,20 +1,19 @@
 import React from "react";
-import './Footer.css';
 
 function Footer() {
   return (
-    <footer className="footer">
-      <div className="footer-left">
-        AlmaMingle<br />
-        <strong>University of North Texas</strong>, All Rights Reserved
-        © {new Date().getFullYear()}
+    <footer className="bg-dark text-white text-center">
+      <div className="wrapper mt-3">
+        <small>
+          AlmaMingle<br />
+          <strong>University of North Texas</strong>, All Rights Reserved
+          © {new Date().getFullYear()}
+        </small>
+        <nav className="footer-nav">
+          <a href="#">Terms of Use</a><br />
+          <a href="#">Privacy</a>
+        </nav>
       </div>
-      
-      <div className="nav">
-        <a href="/terms-of-use">Terms of Use</a>
-        <a href="/privacy">Privacy</a>
-      </div>
-      
     </footer>
   );
 }

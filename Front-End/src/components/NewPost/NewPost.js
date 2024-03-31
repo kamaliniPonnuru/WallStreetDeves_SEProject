@@ -33,7 +33,7 @@ function NewPost() {
 
       console.log("New Post Added:", response.data);
       alert(response.data.message);
-      if(response.data.message === "New Post Added"){
+      if(response.data.message === "New Post created"){
         navigate('/posts');
       }
     } catch (error) {

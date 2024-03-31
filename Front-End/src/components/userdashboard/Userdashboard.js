@@ -8,6 +8,7 @@ import { Link, Routes, Route } from 'react-router-dom';
 import UserProfile from "../userprofile/UserProfile";
 import NewPost from "../NewPost/NewPost";
 import Posts from "../Posts/Posts";
+import Messages from "../messages/Messages";
 
 function Userdashboard() {
   let { userObj } = useSelector((state) => state.user);
@@ -19,8 +20,8 @@ function Userdashboard() {
   return (
     <>
       <>
-        <div style={{ display: 'flex', alignItems: 'center', marginTop:'40px', marginLeft:'30px' }}>
-          <h3 style={{ marginRight: '10px' }}>Hello, {userObj.username}!</h3>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '40px', marginLeft: '30px' }}>
+          <h3 style={{ marginRight: '10px' }}>Hello, {userObj.name}!</h3>
           <h5>Connect with your alumni network.</h5>
         </div>
 
@@ -38,7 +39,7 @@ function Userdashboard() {
             <Link to="/posts">
               <figure class="user-dashboard-card">
                 <figcaption class="user-dashboard-card_title">
-                 Posts
+                  Posts
                 </figcaption>
               </figure>
             </Link>
@@ -62,7 +63,7 @@ function Userdashboard() {
             </Link>
           </div>
           <div class="user-dashboard-cards">
-            <Link to="#">
+            <Link to="/messages">
               <figure class="user-dashboard-card">
                 <figcaption class="user-dashboard-card_title">
                   Messages
@@ -82,6 +83,7 @@ function Userdashboard() {
               <Route path="/new-post" element={<NewPost />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/posts" element={<Posts />} />
+              <Route path="/messages" element={<Messages />} />
             </Routes>
           </div>
         </div>

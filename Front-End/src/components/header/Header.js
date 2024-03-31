@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Header.css";
 import { Container, Nav, Navbar, NavDropdown, Modal, Button, Form } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
@@ -16,16 +16,22 @@ import { useNavigate, Navigate } from "react-router-dom";
 import Posts from "../Posts/Posts";
 import NewPost from "../NewPost/NewPost";
 import homeImg from "../../images/main_pic.png";
+import Admindashboard from '../admin/admindashboard/Admindashboard'
+import Messages from "../messages/Messages";
 
 function Header() {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [newPassword, setNewPassword] = useState("");
-  const [confirmNewPassword,setConfirmNewPassword] =useState("")
+  const [confirmNewPassword, setConfirmNewPassword] = useState("")
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isSuccess, userObj } = useSelector((state) => state.user);
+  const { isError: adminIsError, isLoading: adminIsLoading, isSuccess: adminIsSuccess, errMsg: adminErrMsg, adminObj } = useSelector(
+    (state) => state.admin
+  );
+
 
   // Function to handle password change
   const handleChangePassword = async () => {
@@ -33,7 +39,7 @@ function Header() {
       alert("Passwords do not match")
       return;
     }
-  
+
     try {
       const response = await fetch("/user-api/change-password", {
         method: "PUT",
@@ -42,7 +48,7 @@ function Header() {
         },
         body: JSON.stringify({ username: userObj.username, newPassword }),
       });
-  
+
       if (response.ok) {
         setNewPassword("");
         setConfirmNewPassword("");
@@ -62,7 +68,7 @@ function Header() {
       alert("Failed to update password");
     }
   };
-  
+
   // Function to handle user logout
   const userLogout = () => {
     // Perform logout actions here
@@ -71,18 +77,20 @@ function Header() {
     navigate("/login");
   };
 
+  const userType = localStorage.getItem('userType');
+
 
   return (
     <div>
       <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="/">
-            <img src={homeImg} alt="" className="shadow-lg rounded" style={{height:60,width:150}} />
+            <img src={homeImg} alt="" className="shadow-lg rounded" style={{ height: 60, width: 150 }} />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ms-auto">
-              {isSuccess !== true ? (
+              {isSuccess !== true && adminIsSuccess !== true ? (
                 <>
                   {/* These links can be visible when no user logged in */}
                   <Nav.Item>
@@ -109,7 +117,7 @@ function Header() {
                     </Nav.Link>
                   </Nav.Item>
                 </>
-              ) : (
+              ) : isSuccess === true && adminIsSuccess !== true ? (
                 <>
                   {/* This dropdown is visible only when a user is logged in */}
                   <Nav.Item>
@@ -119,13 +127,19 @@ function Header() {
                   </Nav.Item>
 
                   <Nav.Item>
-                    <Nav.Link eventKey="2" as={NavLink} to="/posts">
-                      Posts
+                    <Nav.Link eventKey="2" as={NavLink} to="/new-post">
+                      Add new Post
                     </Nav.Link>
                   </Nav.Item>
 
                   <Nav.Item>
-                    <Nav.Link eventKey="3" as={NavLink} to="/userdashboard/events">
+                    <Nav.Link eventKey="3" as={NavLink} to="/posts">
+                      View Posts
+                    </Nav.Link>
+                  </Nav.Item>
+
+                  <Nav.Item>
+                    <Nav.Link eventKey="4" as={NavLink} to="/userdashboard/events">
                       Events
                     </Nav.Link>
                   </Nav.Item>
@@ -144,7 +158,25 @@ function Header() {
                     </NavDropdown.Item>
                   </NavDropdown>
                 </>
-              )}
+              ) : adminIsSuccess === true && isSuccess !== true ? (
+                <>
+                  <Nav.Item>
+                    <Nav.Link eventKey="1" as={NavLink} to="/reportedposts">
+                      Reported posts
+                    </Nav.Link>
+                  </Nav.Item>
+                  <NavDropdown
+                    title={adminObj.username}
+                    id="drop-down"
+                  >
+                    <NavDropdown.Item onClick={userLogout}>
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+
+                </>
+              ) : (<> </>)
+              }
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -158,8 +190,9 @@ function Header() {
         <Route path="/events" element={<UserProfile />} />
         <Route path="/new-post" element={<NewPost />} />
         <Route path="/profile" element={<UserProfile />} />
-        <Route path="/userdashboard" element={<Userdashboard />}>
-        </Route>
+        <Route path="/userdashboard" element={<Userdashboard />} />
+        <Route path="/admindashboard" element={<Admindashboard />} />
+        <Route path="/messages" element={<Messages />} />
       </Routes>
 
       {/* Change Password Modal */}
