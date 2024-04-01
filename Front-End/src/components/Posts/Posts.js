@@ -19,6 +19,7 @@ const Posts = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editPost, setEditPost] = useState({});
   const { userObj } = useSelector((state) => state.user); // Access userObj from Redux
+  const filteredPosts = viewType==='all' ? posts : posts.filter(post => post.createdBy === userObj.username);
 
   useEffect(() => {
     fetchPosts();
@@ -35,6 +36,7 @@ const Posts = () => {
       }
       url += `${createdByParam}&page=${currentPage}`;
       const response = await axios.get(url);
+      console.log(response.data.payload.posts);
       setPosts(response.data.payload.posts);
       setTotalPages(response.data.payload.totalPages);
     } catch (error) {
@@ -172,9 +174,9 @@ const Posts = () => {
 
       {/* Post List */}
       <div className="container mt-3">
-        {posts.length > 0 ? (
+        {filteredPosts.length > 0 ? (
           <ul className="list-group">
-            {posts.map((post, index) => (
+            {filteredPosts.map((post, index) => (
               <li key={post._id} className="list-group-item" style={{ marginBottom: index < posts.length - 1 ? '20px' : '0' }}>
                 {viewType === 'my' && post.createdBy === userObj.username ? (
                   <div className="d-flex justify-content-between align-items-center">
@@ -183,16 +185,7 @@ const Posts = () => {
                       <p>{post.content}</p>
                       <p>Category: {post.category}</p>
                     </div>
-                    {/* <Link to="/posts/{post.id}">
-                      <div class="card">
-                        <div class="content">
-                          <p class="heading">{post.title}</p>
-                          <p class="para">
-                            {post.content}
-                          </p>
-                        </div>
-                      </div>
-                    </Link> */}
+
                     <DropdownButton
                       align="end"
                       title={<span style={{ color: 'inherit' }}>&#8942;</span>}

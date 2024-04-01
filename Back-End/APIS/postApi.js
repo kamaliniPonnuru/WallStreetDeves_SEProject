@@ -70,17 +70,17 @@ postApp.post(
   })
 );
 
-postApp.get("/reportedposts", expressAsyncHandler( async (req, res) => {
-  let reportPostCollectionObject = request.app.get("reportPostCollectionObject");
+postApp.get("/reportedposts", expressAsyncHandler(async (request, response) => {
   try {
-    const reportedPosts = await reportPostCollectionObject.find().sort({ count: -1 }); 
-    res.json(reportedPosts);
+    const reportPostCollectionObject = request.app.get("reportPostCollectionObject");
+    const reportedPosts = await reportPostCollectionObject.find().toArray(); 
+    response.json(reportedPosts);
   } catch (error) {
     console.error("Error fetching reported posts:", error);
-    res.status(500).json({ message: "Internal server error" });
+    response.status(500).json({ message: "Internal server error" });
   }
-})
-);
+}));
+
 
 
 postApp.put(
@@ -141,9 +141,9 @@ postApp.get(
 
     // Fetch posts for the current page
     let posts = await postCollectionObject.find(query)
-      .sort({ createdAt: -1 }) // Sort by creation date, latest first
-      .skip(skip) // Skip posts for pagination
-      .limit(ITEMS_PER_PAGE) // Limit number of posts per page
+      .sort({ createdAt: -1 }) 
+      .skip(skip) 
+      .limit(ITEMS_PER_PAGE) 
       .toArray();
 
     response.send({ message: "Posts list", payload: { posts, totalPages } });
@@ -171,6 +171,30 @@ postApp.delete(
 
       // Delete the post
       await postCollectionObject.deleteOne({ _id: new ObjectId(postId) });
+
+      response.send({ message: "Post deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      response.status(500).send({ message: "Internal server error" });
+    }
+  })
+);
+
+postApp.delete(
+  "/report-post-delete/:reportpostId",
+  expressAsyncHandler(async (request, response) => {
+    let reportPostCollectionObject = request.app.get("reportPostCollectionObject");
+
+    const postId = request.params.reportpostId;
+    try {
+      const post = await reportPostCollectionObject.findOne({ _id: new ObjectId(postId) });
+      console.log(post)
+      if (!post) {
+        response.status(404).send({ message: "Post not found" });
+        return;
+      }
+
+      await reportPostCollectionObject.deleteOne({ _id: new ObjectId(postId) });
 
       response.send({ message: "Post deleted successfully" });
     } catch (error) {

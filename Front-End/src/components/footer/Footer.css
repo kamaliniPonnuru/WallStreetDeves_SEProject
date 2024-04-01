@@ -4,12 +4,11 @@
   text-align: center;
   bottom: 0;
   width: 100%;
-  position:relative;
   height: 70px;
 }
 
-.footer-left {
-  float: left;
+.wrapper {
+  padding: 10px; 
 }
 
 .nav {

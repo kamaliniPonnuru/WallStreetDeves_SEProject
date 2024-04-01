@@ -1,11 +1,10 @@
 import React from "react";
-import homeImg from "../images/main_pic.png";
 import { Container } from "react-bootstrap";
 import Carousel from "./Corousel/Corousel";
 
 function Home() {
   return (
-    <Container className="text-center">
+    <Container className="text-center" style={{marginTop:40}}>
       <div className="d-flex justify-content-center">
         {/* <img src={homeImg} alt="" className="w-50 shadow-lg rounded mt-5" /> */}
         <Carousel />

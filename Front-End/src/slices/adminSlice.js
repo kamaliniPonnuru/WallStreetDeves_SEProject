@@ -32,7 +32,7 @@ const adminSlice = createSlice({
     errMsg: '',
   },
   reducers: {
-    clearLoginStatus: (state) => {
+    adminClearLoginStatus: (state) => {
       state.isSuccess = false;
       state.adminObj = null;
       state.isError = false;
@@ -62,6 +62,6 @@ const adminSlice = createSlice({
 });
 
 // export action creators
-export const { clearLoginStatus } = adminSlice.actions;
+export const { adminClearLoginStatus } = adminSlice.actions;
 // export reducer
 export default adminSlice.reducer;

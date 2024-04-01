@@ -10,6 +10,7 @@ import Contactus from "../Contactus";
 import UserProfile from "../userprofile/UserProfile";
 import { useSelector } from "react-redux";
 import { clearLoginStatus } from "../../slices/userSlice";
+import { adminClearLoginStatus } from "../../slices/adminSlice"
 import { useDispatch } from "react-redux";
 import Userdashboard from "../userdashboard/Userdashboard";
 import { useNavigate, Navigate } from "react-router-dom";
@@ -18,6 +19,9 @@ import NewPost from "../NewPost/NewPost";
 import homeImg from "../../images/main_pic.png";
 import Admindashboard from '../admin/admindashboard/Admindashboard'
 import Messages from "../messages/Messages";
+import Events from "../events/Events";
+import Reportedposts from "../admin/reportedposts/Reportedposts";
+import Inquiry from "../admin/inquiries/Inquiry";
 
 function Header() {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
@@ -71,9 +75,14 @@ function Header() {
 
   // Function to handle user logout
   const userLogout = () => {
-    // Perform logout actions here
     localStorage.clear();
     dispatch(clearLoginStatus());
+    navigate("/login");
+  };
+
+  const adminLogout = () => {
+    localStorage.clear();
+    dispatch(adminClearLoginStatus());
     navigate("/login");
   };
 
@@ -120,29 +129,37 @@ function Header() {
               ) : isSuccess === true && adminIsSuccess !== true ? (
                 <>
                   {/* This dropdown is visible only when a user is logged in */}
-                  <Nav.Item>
-                    <Nav.Link eventKey="1" as={NavLink} to="/userdashboard">
+                 
+                    <div className="navitem">
+                    <NavLink to="/userdashboard" exact>
                       User Dashboard
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                    </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="2" as={NavLink} to="/new-post">
-                      Add new Post
-                    </Nav.Link>
-                  </Nav.Item>
+                    <div className="navitem">
+                  <NavLink to="/posts" exact>
+                       View Posts
+                    </NavLink >
+                    </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="3" as={NavLink} to="/posts">
-                      View Posts
-                    </Nav.Link>
-                  </Nav.Item>
+                    <div className="navitem">
+                  <NavLink to="/new-post" exact>
+                      Add New Post
+                    </NavLink >
+                    </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="4" as={NavLink} to="/userdashboard/events">
+                    <div className="navitem">
+                  <NavLink to="/events" exact>
                       Events
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                    </div>
+
+                    <div className="navitem">
+                  <NavLink to="/messages" exact>
+                      Messages
+                    </NavLink >
+                    </div>
+
                   <NavDropdown
                     title={userObj.username}
                     //id="collasible-nav-dropdown"
@@ -161,19 +178,28 @@ function Header() {
               ) : adminIsSuccess === true && isSuccess !== true ? (
                 <>
                   <Nav.Item>
-                    <Nav.Link eventKey="1" as={NavLink} to="/reportedposts">
+                    <Nav.Link eventKey="1" as={NavLink} to="/admindashboard">
+                      Dashboard
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="2" as={NavLink} to="/reportedposts">
                       Reported posts
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="3" as={NavLink} to="/inquiries">
+                      Inquiries
                     </Nav.Link>
                   </Nav.Item>
                   <NavDropdown
                     title={adminObj.username}
                     id="drop-down"
                   >
-                    <NavDropdown.Item onClick={userLogout}>
+                    <NavDropdown.Item onClick={adminLogout}>
                       Logout
                     </NavDropdown.Item>
                   </NavDropdown>
-
                 </>
               ) : (<> </>)
               }
@@ -182,17 +208,19 @@ function Header() {
         </Container>
       </Navbar>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/contactus" element={<Contactus />} />
-        <Route path="/posts" element={<Posts />} />
-        <Route path="/events" element={<UserProfile />} />
-        <Route path="/new-post" element={<NewPost />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/userdashboard" element={<Userdashboard />} />
-        <Route path="/admindashboard" element={<Admindashboard />} />
-        <Route path="/messages" element={<Messages />} />
+        <Route path="/" exact element={<Home />} />
+        <Route path="/signup" exact element={<Signup />} />
+        <Route path="/login" exact element={<Login />} />
+        <Route path="/contactus" exact element={<Contactus />} />
+        <Route path="/events" exact element={<Events />} />
+        <Route path="/new-post" exact element={<NewPost />} />
+        <Route path="/profile" exact element={<UserProfile />} />
+        <Route path="/userdashboard" exact element={<Userdashboard />} />
+        <Route path="/admindashboard" exact element={<Admindashboard />} />
+        <Route path="/posts" exact element={<Posts />} />
+        <Route path="/messages" exact element={<Messages />} />
+        <Route path="/reportedposts" exact element={<Reportedposts />} />
+        <Route path="/inquiries" exact element={<Inquiry />} />
       </Routes>
 
       {/* Change Password Modal */}

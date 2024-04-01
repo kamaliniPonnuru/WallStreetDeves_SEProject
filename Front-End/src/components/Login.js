@@ -95,7 +95,7 @@ function Login() {
             </Form.Group>
 
             <Button className="general_button" type="submit" disabled={isLoading}>
-              {isLoading ? (
+              {isLoading || adminIsLoading ? (
                 <Spinner animation="border" size="sm" />
               ) : (
                 "Login"
