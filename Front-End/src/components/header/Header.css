@@ -17,9 +17,29 @@
   }
   
   #drop-down{
-    /* background-color: #4cb84c; */
     color:#4cb84c;
     font-weight: bold;
-    
-    /* border-radius: 5px; */
+
   }
+
+  .navitem {
+    margin: 0;
+    padding: 5px;
+  }
+  
+  .navitem a {
+    color: #c5baba;
+    text-decoration: none;
+    padding: 10px 15px;
+  }
+  
+  .navitem a:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .navitem a.active {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+  }
+  

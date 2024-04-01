@@ -129,35 +129,36 @@ function Header() {
               ) : isSuccess === true && adminIsSuccess !== true ? (
                 <>
                   {/* This dropdown is visible only when a user is logged in */}
-                  <Nav.Item>
-                    <Nav.Link eventKey="1" as={NavLink} to="/userdashboard">
+                 
+                    <div className="navitem">
+                    <NavLink to="/userdashboard" exact>
                       User Dashboard
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                    </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="2" as={NavLink} to="/new-post">
-                      Add new Post
-                    </Nav.Link>
-                  </Nav.Item>
+                    <div className="navitem">
+                  <NavLink to="/posts" exact>
+                       View Posts
+                    </NavLink >
+                    </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="3" as={NavLink} to="/posts">
-                      View Posts
-                    </Nav.Link>
-                  </Nav.Item>
+                    <div className="navitem">
+                  <NavLink to="/new-post" exact>
+                      Add New Post
+                    </NavLink >
+                    </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="4" as={NavLink} to="/events">
+                    <div className="navitem">
+                  <NavLink to="/events" exact>
                       Events
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                    </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="5" as={NavLink} to="/messages">
+                    <div className="navitem">
+                  <NavLink to="/messages" exact>
                       Messages
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                    </div>
 
                   <NavDropdown
                     title={userObj.username}
@@ -207,19 +208,19 @@ function Header() {
         </Container>
       </Navbar>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/contactus" element={<Contactus />} />
-        <Route path="/posts" element={<Posts />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/new-post" element={<NewPost />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/userdashboard" element={<Userdashboard />} />
-        <Route path="/admindashboard" element={<Admindashboard />} />
-        <Route path="/messages" element={<Messages />} />
-        <Route path="/reportedposts" element={<Reportedposts />} />
-        <Route path="/inquiries" element={<Inquiry />} />
+        <Route path="/" exact element={<Home />} />
+        <Route path="/signup" exact element={<Signup />} />
+        <Route path="/login" exact element={<Login />} />
+        <Route path="/contactus" exact element={<Contactus />} />
+        <Route path="/events" exact element={<Events />} />
+        <Route path="/new-post" exact element={<NewPost />} />
+        <Route path="/profile" exact element={<UserProfile />} />
+        <Route path="/userdashboard" exact element={<Userdashboard />} />
+        <Route path="/admindashboard" exact element={<Admindashboard />} />
+        <Route path="/posts" exact element={<Posts />} />
+        <Route path="/messages" exact element={<Messages />} />
+        <Route path="/reportedposts" exact element={<Reportedposts />} />
+        <Route path="/inquiries" exact element={<Inquiry />} />
       </Routes>
 
       {/* Change Password Modal */}
