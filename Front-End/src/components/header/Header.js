@@ -177,21 +177,24 @@ function Header() {
                 </>
               ) : adminIsSuccess === true && isSuccess !== true ? (
                 <>
-                  <Nav.Item>
-                    <Nav.Link eventKey="1" as={NavLink} to="/admindashboard">
+                  <div className="navitem">
+                  <NavLink to="/admindashboard" exact>
                       Dashboard
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="2" as={NavLink} to="/reportedposts">
+                    </NavLink >
+                  </div>
+
+                  <div className="navitem">
+                  <NavLink to="/reportedposts" exact>
                       Reported posts
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="3" as={NavLink} to="/inquiries">
-                      Inquiries
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                  </div>
+
+                  <div className="navitem">
+                  <NavLink to="/inquiries" exact>
+                     Inquiries
+                    </NavLink >
+                  </div>
+
                   <NavDropdown
                     title={adminObj.username}
                     id="drop-down"

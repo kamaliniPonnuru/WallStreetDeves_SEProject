@@ -13,7 +13,7 @@
   }
   
   a:hover{
-    color:aliceblue;
+    color:rgb(6, 45, 78);
   }
   
   #drop-down{
@@ -34,7 +34,7 @@
   }
   
   .navitem a:hover {
-    background-color: #f0f0f0;
+    background-color: #000000;
   }
   
   .navitem a.active {
