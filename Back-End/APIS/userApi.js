@@ -78,26 +78,45 @@ userApp.put('/editprofile', expressAsyncHandler(async (req, res) => {
   const { name, email, username, original_username } = req.body; 
 
   try {
-    
     const userCollectionObject = req.app.get("userCollectionObject");
-    const user = await userCollectionObject.findOne({ original_username });
 
-    if (!user) {
+    let updatedUserName, updatedUserEmail, updatedUsername;
+
+    if (name !== null && name !== "") {
+      updatedUserName = await userCollectionObject.findOneAndUpdate(
+        { username: original_username },
+        { $set: {name} },
+        { new: true }
+      );
+    }
+    if (email !== null && email !== "" ) {
+      updatedUserEmail = await userCollectionObject.findOneAndUpdate(
+        { username: original_username },
+        { $set: {email} },
+        { new: true }
+      );
+    }
+    if (username !== null && username !== "" ){
+      updatedUsername = await userCollectionObject.findOneAndUpdate(
+        { username: original_username },
+        { $set: {username} },
+        { new: true }
+      );
+    }
+
+    if (!updatedUserName && !updatedUserEmail && !updatedUsername) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    if (name) user.name = name;
-    if (email) user.email = email;
-    if (username) user.username = username;
+    const updatedUser = updatedUserName || updatedUserEmail || updatedUsername;
 
-    await user.save();
-
-    res.status(200).json({ message: 'User profile updated successfully' }); 
+    res.status(200).json({ message: 'User profile updated successfully', user: updatedUser }); 
   } catch (error) {
     console.error('Error updating user profile:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
-}));;
+}));
+
 
 
 

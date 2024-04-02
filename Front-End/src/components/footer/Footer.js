@@ -2,7 +2,7 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer className="bg-dark text-white text-center" style={{ position: "relative", bottom: "0", width: "100%" }}>
+    <footer className="bg-dark text-white text-center footer">
       <div className="wrapper mt-3">
         <small>
           AlmaMingle<br />

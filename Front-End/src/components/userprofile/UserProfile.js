@@ -20,6 +20,7 @@ function UserProfile() {
   };
 
   const handleSave = () => {
+    console.log("Hi")
     const original_username = userObj.username;
     const updatedUserData = { name, email, username, original_username };
   

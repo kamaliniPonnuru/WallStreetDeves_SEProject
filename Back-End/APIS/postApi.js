@@ -204,6 +204,59 @@ postApp.delete(
   })
 );
 
+postApp.get(
+  "/increaselike/:postId",
+  expressAsyncHandler(async (request, response) => {
+    try {
+      const postId = request.params.postId;
+      const postCollectionObject = request.app.get("postCollectionObject");
+
+
+      const updatedPost = await postCollectionObject.findOneAndUpdate(
+        { _id: new ObjectId(postId) },
+        { $inc: { likecount: 1 } }, 
+        { new: true } 
+      );
+
+      if (!updatedPost) {
+        return response.status(404).json({ message: 'Post not found' });
+      }
+
+      response.status(200).json({ message: 'Like count increased successfully', updatedPost });
+    } catch (error) {
+      console.error('Error increasing like count:', error);
+      response.status(500).json({ message: 'Internal server error' });
+    }
+  })
+);
+
+
+postApp.get(
+  "/decreaselike/:postId",
+  expressAsyncHandler(async (request, response) => {
+    try {
+      const postId = request.params.postId;
+      const postCollectionObject = request.app.get("postCollectionObject");
+
+
+      const updatedPost = await postCollectionObject.findOneAndUpdate(
+        { _id: new ObjectId(postId) },
+        { $dec: { likecount: 1 } }, 
+        { new: true } 
+      );
+
+      if (!updatedPost) {
+        return response.status(404).json({ message: 'Post not found' });
+      }
+
+      response.status(200).json({ message: 'Like count increased successfully', updatedPost });
+    } catch (error) {
+      console.error('Error increasing like count:', error);
+      response.status(500).json({ message: 'Internal server error' });
+    }
+  })
+);
+
 
 
 
