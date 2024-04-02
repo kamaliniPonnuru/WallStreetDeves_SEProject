@@ -19,7 +19,7 @@ const Posts = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editPost, setEditPost] = useState({});
   const { userObj } = useSelector((state) => state.user); // Access userObj from Redux
-  const filteredPosts = viewType==='all' ? posts : posts.filter(post => post.createdBy === userObj.username);
+  const filteredPosts = viewType==='all' ? posts.filter(post => post.createdBy != userObj.username) : posts.filter(post => post.createdBy === userObj.username);
 
   useEffect(() => {
     fetchPosts();

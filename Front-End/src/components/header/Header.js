@@ -102,29 +102,30 @@ function Header() {
               {isSuccess !== true && adminIsSuccess !== true ? (
                 <>
                   {/* These links can be visible when no user logged in */}
-                  <Nav.Item>
-                    <Nav.Link eventKey="1" as={NavLink} to="/">
+                  
+                  <div className="navitem">
+                  <NavLink to="/" exact>
                       Home
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                  </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="2" as={NavLink} to="/signup">
+                  <div className="navitem">
+                  <NavLink to="/signup" exact>
                       Signup
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                  </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="3" as={NavLink} to="/login">
+                  <div className="navitem">
+                  <NavLink to="/login" exact>
                       Login
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                  </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="4" as={NavLink} to="/contactus">
-                      ContactUs
-                    </Nav.Link>
-                  </Nav.Item>
+                  <div className="navitem">
+                  <NavLink to="/contactus" exact>
+                      Contact Us
+                    </NavLink >
+                  </div>
                 </>
               ) : isSuccess === true && adminIsSuccess !== true ? (
                 <>
@@ -177,21 +178,24 @@ function Header() {
                 </>
               ) : adminIsSuccess === true && isSuccess !== true ? (
                 <>
-                  <Nav.Item>
-                    <Nav.Link eventKey="1" as={NavLink} to="/admindashboard">
+                  <div className="navitem">
+                  <NavLink to="/admindashboard" exact>
                       Dashboard
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="2" as={NavLink} to="/reportedposts">
+                    </NavLink >
+                  </div>
+
+                  <div className="navitem">
+                  <NavLink to="/reportedposts" exact>
                       Reported posts
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="3" as={NavLink} to="/inquiries">
-                      Inquiries
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                  </div>
+
+                  <div className="navitem">
+                  <NavLink to="/inquiries" exact>
+                     Inquiries
+                    </NavLink >
+                  </div>
+
                   <NavDropdown
                     title={adminObj.username}
                     id="drop-down"
