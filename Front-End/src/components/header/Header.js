@@ -22,6 +22,7 @@ import Messages from "../messages/Messages";
 import Events from "../events/Events";
 import Reportedposts from "../admin/reportedposts/Reportedposts";
 import Inquiry from "../admin/inquiries/Inquiry";
+import Notifications from "../notifications/Notifications";
 
 function Header() {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
@@ -102,27 +103,27 @@ function Header() {
               {isSuccess !== true && adminIsSuccess !== true ? (
                 <>
                   {/* These links can be visible when no user logged in */}
-                  
+
                   <div className="navitem">
-                  <NavLink to="/" exact>
+                    <NavLink to="/" exact>
                       Home
                     </NavLink >
                   </div>
 
                   <div className="navitem">
-                  <NavLink to="/signup" exact>
+                    <NavLink to="/signup" exact>
                       Signup
                     </NavLink >
                   </div>
 
                   <div className="navitem">
-                  <NavLink to="/login" exact>
+                    <NavLink to="/login" exact>
                       Login
                     </NavLink >
                   </div>
 
                   <div className="navitem">
-                  <NavLink to="/contactus" exact>
+                    <NavLink to="/contactus" exact>
                       Contact Us
                     </NavLink >
                   </div>
@@ -130,36 +131,36 @@ function Header() {
               ) : isSuccess === true && adminIsSuccess !== true ? (
                 <>
                   {/* This dropdown is visible only when a user is logged in */}
-                 
-                    <div className="navitem">
+
+                  <div className="navitem">
                     <NavLink to="/userdashboard" exact>
-                      User Dashboard
+                      Dashboard
                     </NavLink >
-                    </div>
+                  </div>
 
-                    <div className="navitem">
-                  <NavLink to="/posts" exact>
-                       View Posts
+                  <div className="navitem">
+                    <NavLink to="/posts" exact>
+                      View Posts
                     </NavLink >
-                    </div>
+                  </div>
 
-                    <div className="navitem">
-                  <NavLink to="/new-post" exact>
-                      Add New Post
+                  <div className="navitem">
+                    <NavLink to="/notifications" exact>
+                      Notifications
                     </NavLink >
-                    </div>
+                  </div>
 
-                    <div className="navitem">
-                  <NavLink to="/events" exact>
-                      Events
-                    </NavLink >
-                    </div>
-
-                    <div className="navitem">
-                  <NavLink to="/messages" exact>
+                  <div className="navitem">
+                    <NavLink to="/messages" exact>
                       Messages
                     </NavLink >
-                    </div>
+                  </div>
+
+                  <div className="navitem">
+                    <NavLink to="/events" exact>
+                      Events
+                    </NavLink >
+                  </div>
 
                   <NavDropdown
                     title={userObj.username}
@@ -179,20 +180,20 @@ function Header() {
               ) : adminIsSuccess === true && isSuccess !== true ? (
                 <>
                   <div className="navitem">
-                  <NavLink to="/admindashboard" exact>
+                    <NavLink to="/admindashboard" exact>
                       Dashboard
                     </NavLink >
                   </div>
 
                   <div className="navitem">
-                  <NavLink to="/reportedposts" exact>
+                    <NavLink to="/reportedposts" exact>
                       Reported posts
                     </NavLink >
                   </div>
 
                   <div className="navitem">
-                  <NavLink to="/inquiries" exact>
-                     Inquiries
+                    <NavLink to="/inquiries" exact>
+                      Inquiries
                     </NavLink >
                   </div>
 
@@ -223,6 +224,7 @@ function Header() {
         <Route path="/admindashboard" exact element={<Admindashboard />} />
         <Route path="/posts" exact element={<Posts />} />
         <Route path="/messages" exact element={<Messages />} />
+        <Route path="/notifications" exact element={<Notifications />} />
         <Route path="/reportedposts" exact element={<Reportedposts />} />
         <Route path="/inquiries" exact element={<Inquiry />} />
       </Routes>

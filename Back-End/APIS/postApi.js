@@ -14,6 +14,7 @@ postApp.post(
   expressAsyncHandler(async (request, response) => {
     //get postCollectionObject
     let postCollectionObject = request.app.get("postCollectionObject");
+    let notificationsCollectionObject = request.app.get("notificationsCollectionObject");
 
     //get newPostObj as string from client and convert into object
     let newPostObj;
@@ -30,6 +31,11 @@ postApp.post(
 
     // Insert the new post object into the database
     await postCollectionObject.insertOne(newPostObj);
+    const recipient = "all";
+    const message_notify = newPostObj.createdBy + " added a new post";
+    const user_type = "user";
+    const m_p_type = "post"
+    await notificationsCollectionObject.insertOne({ recipient, message_notify, user_type, m_p_type })
     response.send({ message: "New Post created" });
   })
 );
@@ -73,7 +79,7 @@ postApp.post(
 postApp.get("/reportedposts", expressAsyncHandler(async (request, response) => {
   try {
     const reportPostCollectionObject = request.app.get("reportPostCollectionObject");
-    const reportedPosts = await reportPostCollectionObject.find().toArray(); 
+    const reportedPosts = await reportPostCollectionObject.find().toArray();
     response.json(reportedPosts);
   } catch (error) {
     console.error("Error fetching reported posts:", error);
@@ -141,9 +147,9 @@ postApp.get(
 
     // Fetch posts for the current page
     let posts = await postCollectionObject.find(query)
-      .sort({ createdAt: -1 }) 
-      .skip(skip) 
-      .limit(ITEMS_PER_PAGE) 
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(ITEMS_PER_PAGE)
       .toArray();
 
     response.send({ message: "Posts list", payload: { posts, totalPages } });
@@ -184,6 +190,7 @@ postApp.delete(
   "/report-post-delete/:reportpostId",
   expressAsyncHandler(async (request, response) => {
     let reportPostCollectionObject = request.app.get("reportPostCollectionObject");
+    let notificationsCollectionObject = request.app.get("notificationsCollectionObject");
 
     const postId = request.params.reportpostId;
     try {
@@ -193,6 +200,12 @@ postApp.delete(
         response.status(404).send({ message: "Post not found" });
         return;
       }
+
+      const recipient = post.post.createdBy;
+      const message_notify = "Your post with title " + post.post.title + " is deleted by admin";
+      const user_type = "user";
+      const m_p_type = "post"
+      await notificationsCollectionObject.insertOne({ recipient, message_notify, user_type, m_p_type })
 
       await reportPostCollectionObject.deleteOne({ _id: new ObjectId(postId) });
 
@@ -214,8 +227,8 @@ postApp.get(
 
       const updatedPost = await postCollectionObject.findOneAndUpdate(
         { _id: new ObjectId(postId) },
-        { $inc: { likecount: 1 } }, 
-        { new: true } 
+        { $inc: { likecount: 1 } },
+        { new: true }
       );
 
       if (!updatedPost) {
@@ -241,8 +254,8 @@ postApp.get(
 
       const updatedPost = await postCollectionObject.findOneAndUpdate(
         { _id: new ObjectId(postId) },
-        { $dec: { likecount: 1 } }, 
-        { new: true } 
+        { $dec: { likecount: 1 } },
+        { new: true }
       );
 
       if (!updatedPost) {

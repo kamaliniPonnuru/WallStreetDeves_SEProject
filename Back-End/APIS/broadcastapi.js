@@ -15,10 +15,16 @@ broadcastApp.post(
             let broadcastCollectionObject = request.app.get(
                 "broadcastCollectionObject"
             );
+            let notificationsCollectionObject = request.app.get("notificationsCollectionObject");
 
             await broadcastCollectionObject.insertOne({
                 message: message,
             });
+            const message_notify = "You have received a new message from admin";
+            const recipient = "all";
+            const user_type = "admin";
+            const m_p_type ="message";
+            await notificationsCollectionObject.insertOne({recipient, message_notify, user_type, m_p_type })
 
             response.status(201).json({ message: "Sent successfully" });
         } catch (error) {

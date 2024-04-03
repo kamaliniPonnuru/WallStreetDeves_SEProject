@@ -6,27 +6,47 @@ import Pagination from 'react-bootstrap/Pagination';
 import './Messages.css';
 
 function Messages() {
-    const [receivedMessages, setReceivedMessages] = useState([]);
+    const [receivedUserMessages, setReceivedUserMessages] = useState([]);
+    const [receivedAdminMessages, setReceivedAdminMessages] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [recipient, setRecipient] = useState('');
     const [content, setContent] = useState('');
-    const [allMessages, setAllMessages] = useState([]);
+    const [selectedUserMessages, setSelectedUserMessages] = useState([]);
+    const [selectedAdminMessages, setSelectedAdminMessages] = useState([]);
     const pageSize = 10;
     const { userObj } = useSelector((state) => state.user);
 
     useEffect(() => {
+        const storedUserMessages = localStorage.getItem('selectedUserMessages');
+        const storedAdminMessages = localStorage.getItem('selectedAdminMessages');
+
+        if (storedUserMessages) {
+            setSelectedUserMessages(JSON.parse(storedUserMessages));
+        }
+
+        if (storedAdminMessages) {
+            setSelectedAdminMessages(JSON.parse(storedAdminMessages));
+        }
+
         fetchReceivedMessages();
         fetchMessagesFromBackend();
     }, [currentPage]);
 
+    useEffect(() => {
+        localStorage.setItem('selectedUserMessages', JSON.stringify(selectedUserMessages));
+        localStorage.setItem('selectedAdminMessages', JSON.stringify(selectedAdminMessages));
+    }, [selectedUserMessages, selectedAdminMessages]);
+
     const fetchReceivedMessages = async () => {
         try {
             const user = userObj.username;
-            const response = await axios.get(`http://localhost:4000/message-api/messages/${user}?page=${currentPage}&pageSize=${pageSize}`);
-            console.log(response);
-            setReceivedMessages(response.data.messages);
-            setTotalPages(response.data.totalPages);
+            const responseUser = await axios.get(`http://localhost:4000/message-api/messages/${user}?page=${currentPage}&pageSize=${pageSize}`);
+            const responseAdmin = await axios.get('http://localhost:4000/broadcast-api/all-messages');
+            
+            setReceivedUserMessages(responseUser.data.messages);
+            setReceivedAdminMessages(responseAdmin.data);
+            setTotalPages(responseUser.data.totalPages);
         } catch (error) {
             console.error('Error fetching received messages:', error);
         }
@@ -36,8 +56,7 @@ function Messages() {
         try {
             const response = await axios.get('http://localhost:4000/broadcast-api/all-messages');
             console.log(response);
-            // Store the response data in an array
-            setAllMessages(response.data);
+            setReceivedAdminMessages(response.data);
         } catch (error) {
             console.error('Error fetching messages from backend:', error);
         }
@@ -66,6 +85,22 @@ function Messages() {
         setCurrentPage(page);
     };
 
+    const handleMessageClick = (messageId, isAdmin) => {
+        if (isAdmin) {
+            setSelectedAdminMessages((prevSelectedMessages) => {
+                return prevSelectedMessages.includes(messageId)
+                    ? prevSelectedMessages.filter((id) => id !== messageId)
+                    : [...prevSelectedMessages, messageId];
+            });
+        } else {
+            setSelectedUserMessages((prevSelectedMessages) => {
+                return prevSelectedMessages.includes(messageId)
+                    ? prevSelectedMessages.filter((id) => id !== messageId)
+                    : [...prevSelectedMessages, messageId];
+            });
+        }
+    };
+
     return (
         <div className="container mt-5">
             <div className="card p-4 mb-4">
@@ -89,8 +124,15 @@ function Messages() {
                     <div className="card p-4">
                         <h2 className="mb-4">Received Messages from users</h2>
                         <ul className="list-group received-messages">
-                            {receivedMessages.map((message, index) => (
-                                <li key={message.id} className={`list-group-item mb-3 ${index !== 0 ? 'border-top' : ''}`}>
+                            {receivedUserMessages.map((message, index) => (
+                                <li 
+                                    key={message._id} 
+                                    className={`list-group-item mb-3 ${index !== 0 ? 'border-top' : ''}`}
+                                    style={{ 
+                                        backgroundColor: selectedUserMessages.includes(message._id) ? '#fff' : '#d3f2d3' 
+                                    }}
+                                    onClick={() => handleMessageClick(message._id, false)}
+                                >
                                     <strong>From:</strong> {message.sender} <br />
                                     <strong>Message:</strong> {message.content}
                                 </li>
@@ -109,8 +151,13 @@ function Messages() {
                     <div className="card p-4">
                         <h2 className="mb-4">Message from Admin</h2>
                         <ul className="list-group received-messages">
-                            {allMessages.map((message, index) => (
-                                <li key={message.id} className={`list-group-item mb-3 ${index !== 0 ? 'border-top' : ''}`}>
+                            {receivedAdminMessages.map((message, index) => (
+                                <li 
+                                    key={message._id} 
+                                    className={`list-group-item mb-3 ${index !== 0 ? 'border-top' : ''}`}
+                                    style={{ backgroundColor: selectedAdminMessages.includes(message._id) ? '#fff' : '#fdd' }}
+                                    onClick={() => handleMessageClick(message._id, true)}
+                                >
                                     <strong>Message:</strong> {message.message}
                                 </li>
                             ))}

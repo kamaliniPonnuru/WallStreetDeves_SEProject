@@ -14,8 +14,13 @@ messageApp.post(
         const { sender, recipient, content } = request.body;
         try {
             let messageCollectionObject = request.app.get("messageCollectionObject");
+            let notificationsCollectionObject = request.app.get("notificationsCollectionObject");
 
             await messageCollectionObject.insertOne({sender, recipient, content});
+            const message_notify = "You have received a new message from "+ sender;
+            const user_type = "user";
+            const m_p_type ="message";
+            await notificationsCollectionObject.insertOne({recipient, message_notify, user_type,m_p_type })
 
             response.status(201).json({ message: 'Message sent successfully' });
         } catch (error) {
