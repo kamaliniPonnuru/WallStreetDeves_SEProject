@@ -27,4 +27,32 @@
     font-style: italic;
     color: #555;
   }
+  .like-button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    width: 30px;
+    height: 30px;
+    position: relative;
+  }
   
+  .like-button:hover .heart:before,
+  .like-button.liked .heart:before {
+    content: "\2665";
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #ff5733;
+    font-size: 24px;
+  }
+  
+  .like-button .heart:before {
+    content: "\2661";
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #ccc;
+    font-size: 24px;
+  }
