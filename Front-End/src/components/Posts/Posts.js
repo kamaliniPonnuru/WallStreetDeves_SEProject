@@ -104,35 +104,35 @@ const Posts = () => {
     }
   };
 
-  // const handleLike = async (postId) => {
-  //   try {
-  //     const response = await axios.get(`/increaselike/${postId}`);
+  const handleLike = async (postId) => {
+    try {
+      const response = await axios.get(`/increaselike/${postId}`);
 
-  //     if (response.status === 200) {
-  //       console.log(response.data.message);
-  //       setLiked(true);
-  //     } else {
-  //       console.error('Error increasing like count:', response.statusText);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error increasing like count:', error);
-  //   }
-  // };
+      if (response.status === 200) {
+        console.log(response.data.message);
+        setLiked(true);
+      } else {
+        console.error('Error increasing like count:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error increasing like count:', error);
+    }
+  };
 
-  // const handleUnlike = async (postId) => {
-  //   try {
-  //     const response = await axios.get(`/decreaselike/${postId}`);
+  const handleUnlike = async (postId) => {
+    try {
+      const response = await axios.get(`/decreaselike/${postId}`);
 
-  //     if (response.status === 200) {
-  //       console.log(response.data.message);
-  //       setLiked(false);
-  //     } else {
-  //       console.error('Error decreasing like count:', response.statusText);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error decreasing like count:', error);
-  //   }
-  // };
+      if (response.status === 200) {
+        console.log(response.data.message);
+        setLiked(false);
+      } else {
+        console.error('Error decreasing like count:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error decreasing like count:', error);
+    }
+  };
 
   const buttonStyle = {
     padding: '10px 20px',
@@ -227,7 +227,7 @@ const Posts = () => {
                       <p>Category: {post.category}</p>
                     </div>
 
-                    {/* <div>
+                    <div>
                       <button onClick={liked ? handleUnlike(post._id) : handleLike(post._id)}>
                         {liked ? <i className="fas fa-heart"></i> : <i className="far fa-heart"></i>}
                         {post.likecount}
@@ -235,7 +235,7 @@ const Posts = () => {
                       <button>
                         <i className="far fa-comment"></i>
                       </button>
-                    </div> */}
+                    </div>
 
                     <DropdownButton
                       align="end"
@@ -258,15 +258,20 @@ const Posts = () => {
                       <p>{post.content}</p>
                       <p>Category: {post.category}</p>
                     </div>
-
+                    </Link>
                     <div>
-                      <button onClick={liked ? handleUnlike(post._id) : handleLike(post._id)}>
+                    
+                      {/* <button onClick={liked ? handleUnlike(post._id) : handleLike(post._id)}>
                         {liked ? <i className="fas fa-heart"></i> : <i className="far fa-heart"></i>}
                         {post.likecount}
                       </button>
                       <button>
                         <i className="far fa-comment"></i>
-                      </button>
+                      </button> */}
+
+                    <button className={`like-button ${liked ? 'liked' : ''}`} onClick={handleLikeClick}>
+                      {liked ? 'Liked!' : 'Like'}
+                    </button>
                     </div>
                     
                     <DropdownButton
