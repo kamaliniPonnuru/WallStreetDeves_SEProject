@@ -9,6 +9,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { Link, Routes, Route } from 'react-router-dom';
 import { BsPlus } from 'react-icons/bs';
 import NewPost from "../NewPost/NewPost";
+import Post from './Post/Post';
 
 
 const Posts = () => {
@@ -21,6 +22,7 @@ const Posts = () => {
   const { userObj } = useSelector((state) => state.user); // Access userObj from Redux
   const filteredPosts = viewType === 'all' ? posts.filter(post => post.createdBy != userObj.username) : posts.filter(post => post.createdBy === userObj.username);
   const [liked, setLiked] = useState(false);
+  const url = "http://localhost:4000";
 
   useEffect(() => {
     fetchPosts();
@@ -91,6 +93,14 @@ const Posts = () => {
       fetchPosts();
     } catch (error) {
       console.error("Error editing post:", error);
+    }
+  };
+
+  const handleLikeClick = async (postId) => {
+    if (liked) {
+      handleUnlike();
+    } else {
+      handleLike();
     }
   };
 
@@ -240,21 +250,28 @@ const Posts = () => {
                 ) : null}
 
                 {viewType === 'all' && post.createdBy !== userObj.username ? (
+                  
                   <div className="d-flex justify-content-between align-items-center">
-                    <div>
+                    <Link className="post_link" to={`${url}/post/${post._id}`}>
+                    <div className='post_container'>
                       <h3>{post.title}</h3>
                       <p>{post.content}</p>
                       <p>Category: {post.category}</p>
                     </div>
-
+                    </Link>
                     <div>
-                      <button onClick={liked ? handleUnlike(post._id) : handleLike(post._id)}>
+                    
+                      {/* <button onClick={liked ? handleUnlike(post._id) : handleLike(post._id)}>
                         {liked ? <i className="fas fa-heart"></i> : <i className="far fa-heart"></i>}
                         {post.likecount}
                       </button>
                       <button>
                         <i className="far fa-comment"></i>
-                      </button>
+                      </button> */}
+
+                    <button className={`like-button ${liked ? 'liked' : ''}`} onClick={handleLikeClick}>
+                      {liked ? 'Liked!' : 'Like'}
+                    </button>
                     </div>
                     
                     <DropdownButton
@@ -288,6 +305,7 @@ const Posts = () => {
       <div>
         <Routes>
           <Route path="/new-post" element={<NewPost />} />
+          <Route path="/post/:id" element={<Post/>}/>
         </Routes>
       </div>
     </div>

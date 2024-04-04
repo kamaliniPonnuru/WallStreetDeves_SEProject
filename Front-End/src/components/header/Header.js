@@ -22,6 +22,7 @@ import Messages from "../messages/Messages";
 import Events from "../events/Events";
 import Reportedposts from "../admin/reportedposts/Reportedposts";
 import Inquiry from "../admin/inquiries/Inquiry";
+import Post from "../Posts/Post/Post";
 
 function Header() {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
@@ -225,6 +226,7 @@ function Header() {
         <Route path="/messages" exact element={<Messages />} />
         <Route path="/reportedposts" exact element={<Reportedposts />} />
         <Route path="/inquiries" exact element={<Inquiry />} />
+        <Route path="/post/:id" element={<Post/>}/>
       </Routes>
 
       {/* Change Password Modal */}

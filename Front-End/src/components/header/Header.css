@@ -6,15 +6,7 @@
     padding: 5px 8px;
     border-radius: 3px;
   }
-  
-  a{
-    color:aliceblue;
-    text-decoration: none;
-  }
-  
-  a:hover{
-    color:rgb(6, 45, 78);
-  }
+
   
   #drop-down{
     color:#4cb84c;
