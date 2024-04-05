@@ -13,8 +13,10 @@ import { clearLoginStatus } from "../../slices/userSlice";
 import { useDispatch } from "react-redux";
 import Userdashboard from "../userdashboard/Userdashboard";
 import { useNavigate, Navigate } from "react-router-dom";
-import Posts from "../posts/Posts";
+import Posts from "../Posts/Posts";
 import NewPost from "../NewPost/NewPost";
+import NewEvent from "../new_event/new_event";
+import Events from "../new_event/get_event";
 
 function Header() {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
@@ -122,7 +124,7 @@ function Header() {
                   </Nav.Item>
 
                   <Nav.Item>
-                    <Nav.Link eventKey="3" as={NavLink} to="/userdashboard/events">
+                    <Nav.Link eventKey="3" as={NavLink} to="/events">
                       Events
                     </Nav.Link>
                   </Nav.Item>
@@ -152,8 +154,9 @@ function Header() {
         <Route path="/login" element={<Login />} />
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/posts" element={<Posts />} />
-        <Route path="events" element={<Userprofile />} />
+        <Route path="/events" element={<Events />} />
         <Route path="/new-post" element={<NewPost />} />
+        <Route path="/new-event" element={<NewEvent />} />
         <Route path="/userdashboard" element={<Userdashboard />}>
           <Route path="profile" element={<Userprofile />} />
           <Route path="" element={<Navigate to="profile" replace={true} />} />

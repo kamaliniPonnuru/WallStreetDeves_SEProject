@@ -7,7 +7,7 @@ import { Outlet, NavLink } from "react-router-dom";
 import { Link, Routes, Route } from 'react-router-dom';
 import Userprofile from "../user-profile/UserProfile";
 import NewPost from "../NewPost/NewPost";
-
+import NewEvent from "../new_event/new_event";
 
 
 function Userdashboard() {
@@ -75,7 +75,15 @@ function Userdashboard() {
               </div>
             </Link>
           </div>
+          <div className="user-dashboard-card">
+            <Link to="/new-event" className="user-dashboard-card-link">
+              <div className="user-dashboard-card-content">
+                <h3>Create New Event</h3>
+              </div>
+            </Link>
+          </div>
         </div>
+
 
         <div className="user-dashboard">
           <div className="user-dashboard-sidebar">
@@ -85,6 +93,7 @@ function Userdashboard() {
             <Routes>
               <Route path="/userdashboard/profile" element={<Userprofile />} />
               <Route path="/new-post" element={<NewPost />} />
+              <Route path="/new-event" element={<NewEvent />} />
             </Routes>
           </div>
         </div>

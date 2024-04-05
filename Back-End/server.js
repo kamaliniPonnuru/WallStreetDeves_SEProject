@@ -26,11 +26,13 @@ mclient.connect(dbUrl)
   let userCollectionObject=dbObj.collection("usercollection");
   let adminCollectionObject=dbObj.collection("admincollection");
   let postCollectionObject=dbObj.collection("postcollection");
+  let eventCollectionObject=dbObj.collection("eventcollection");
 
   //sharing collection objects to APIs
   app.set("userCollectionObject",userCollectionObject);
   app.set("adminCollectionObject",adminCollectionObject);
   app.set('postCollectionObject',postCollectionObject)
+  app.set('eventCollectionObject',eventCollectionObject)
 
   console.log("DB connection success")
 })
@@ -40,9 +42,11 @@ mclient.connect(dbUrl)
 //import userApp and productApp
 const userApp = require("./APIS/userApi");
 const postApp = require('./APIS/postApi')
+const eventApp=require("./APIS/eventApi")
 //excute specific middleware based on path
 app.use("/user-api", userApp);
-app.use("/post-api", postApp)
+app.use("/post-api", postApp);
+app.use("/event-api", eventApp)
 
 
 // dealing with page refresh
