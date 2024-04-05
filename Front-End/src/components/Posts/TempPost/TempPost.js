@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './TempPost.css';
 import { FcLike } from "react-icons/fc";
-import { CiHeart } from "react-icons/ci";
+import { FaRegHeart } from "react-icons/fa";
 import { TfiComments } from "react-icons/tfi";
 
 const TempPost = ({ post }) => {
@@ -70,16 +70,16 @@ const TempPost = ({ post }) => {
       <p className="temp_post-likes">{post.content}</p>
       {/* <button onClick={handleLikeClick(post._id)}>{liked ? <AiTwotoneLike /> : <AiFillLike />}</button> */}
       
-      <div>
+      <div className="buttons_container">
       {liked ? (
-        <button onClick={() => handleLikeClick(post._id)}><FcLike /></button>
+        <button className="temp_post-button" onClick={() => handleLikeClick(post._id)}><FcLike size={'2rem'}/></button>
       ) : (
-        <button onClick={() => handleLikeClick(post._id)}><CiHeart /></button>
+        <button className="temp_post-button" onClick={() => handleLikeClick(post._id)}><FaRegHeart size={'2rem'}/> </button>
       )}
-    <p className="temp_post-likes">Likes: {post.likes}</p>
+      {/* <p>{post.likes}</p> */}
 
-      <button onClick={toggleDialog}>
-      <TfiComments />
+      <button className="temp_post-button" onClick={toggleDialog}>
+      <TfiComments size={'2rem'}/>
       </button>
       {showDialog && (
         <div className="temp_dialog-overlay">
