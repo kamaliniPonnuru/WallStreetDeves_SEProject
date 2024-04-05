@@ -7,9 +7,9 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Link, Routes, Route } from 'react-router-dom';
-import { BsPlus } from 'react-icons/bs';
 import NewPost from "../NewPost/NewPost";
 import Post from './Post/Post';
+import TempPost from './TempPost/TempPost';
 
 
 const Posts = () => {
@@ -107,7 +107,6 @@ const Posts = () => {
   const handleLike = async (postId) => {
     try {
       const response = await axios.get(`/increaselike/${postId}`);
-
       if (response.status === 200) {
         console.log(response.data.message);
         setLiked(true);
@@ -221,21 +220,12 @@ const Posts = () => {
               <li key={post._id} className="list-group-item" style={{ marginBottom: index < posts.length - 1 ? '20px' : '0' }}>
                 {viewType === 'my' && post.createdBy === userObj.username ? (
                   <div className="d-flex justify-content-between align-items-center">
-                    <div>
+                    {/* <div>
                       <h3>{post.title}</h3>
                       <p>{post.content}</p>
                       <p>Category: {post.category}</p>
-                    </div>
-
-                    <div>
-                      <button onClick={liked ? handleUnlike(post._id) : handleLike(post._id)}>
-                        {liked ? <i className="fas fa-heart"></i> : <i className="far fa-heart"></i>}
-                        {post.likecount}
-                      </button>
-                      <button>
-                        <i className="far fa-comment"></i>
-                      </button>
-                    </div>
+                    </div> */}
+                      <TempPost key={post._id} post={post} />
 
                     <DropdownButton
                       align="end"
@@ -252,13 +242,14 @@ const Posts = () => {
                 {viewType === 'all' && post.createdBy !== userObj.username ? (
                   
                   <div className="d-flex justify-content-between align-items-center">
-                    <Link className="post_link" to={`${url}/post/${post._id}`}>
+                    {/* <Link className="post_link" to={`${url}/post/${post._id}`}>
                     <div className='post_container'>
                       <h3>{post.title}</h3>
                       <p>{post.content}</p>
                       <p>Category: {post.category}</p>
                     </div>
-                    </Link>
+                    </Link> */}
+                    <TempPost key={post._id} post={post} />
                     <div>
                     
                       {/* <button onClick={liked ? handleUnlike(post._id) : handleLike(post._id)}>
@@ -269,9 +260,9 @@ const Posts = () => {
                         <i className="far fa-comment"></i>
                       </button> */}
 
-                    <button className={`like-button ${liked ? 'liked' : ''}`} onClick={handleLikeClick}>
+                    {/* <button className={`like-button ${liked ? 'liked' : ''}`} onClick={handleLikeClick}>
                       {liked ? 'Liked!' : 'Like'}
-                    </button>
+                    </button> */}
                     </div>
                     
                     <DropdownButton
