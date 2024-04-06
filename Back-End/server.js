@@ -31,6 +31,8 @@ mclient.connect(dbUrl)
   let contactusCollectionObject=dbObj.collection("contactuscollection");
   let broadcastCollectionObject=dbObj.collection("broadcastcollection");
   let notificationsCollectionObject=dbObj.collection("notificationscollection");
+  let likeCollectionObject=dbObj.collection("likeCollectionObject");
+  let commentCollectionObject = dbObj.collection("commentcollection")
 
 
   //sharing collection objects to APIs
@@ -42,6 +44,8 @@ mclient.connect(dbUrl)
   app.set("contactusCollectionObject",contactusCollectionObject);
   app.set("broadcastCollectionObject",broadcastCollectionObject);
   app.set("notificationsCollectionObject",notificationsCollectionObject);
+  app.set("likeCollectionObject",likeCollectionObject);
+  app.set("commentCollectionObject",commentCollectionObject);
 
 
   console.log("DB connection success")
@@ -57,6 +61,7 @@ const messageApp = require("./APIS/messageApi");
 const contactusApp = require("./APIS/contactusApi");
 const broadcastApp = require("./APIS/broadcastapi");
 const notificationApp = require("./APIS/notificationApi");
+const commentApp = require("./APIS/commentApi")
 //excute specific middleware based on path
 app.use("/user-api", userApp);
 app.use("/post-api", postApp);
@@ -65,6 +70,7 @@ app.use("/message-api", messageApp);
 app.use("/contactus-api", contactusApp);
 app.use("/broadcast-api", broadcastApp);
 app.use("/notification-api",notificationApp);
+app.use("/comment-api", commentApp);
 
 
 // dealing with page refresh

@@ -24,7 +24,7 @@ broadcastApp.post(
             const recipient = "all";
             const user_type = "admin";
             const m_p_type ="message";
-            await notificationsCollectionObject.insertOne({recipient, message_notify, user_type, m_p_type })
+            await notificationsCollectionObject.insertOne({recipient, message_notify, user_type, m_p_type, createdAt: Date.now() })
 
             response.status(201).json({ message: "Sent successfully" });
         } catch (error) {

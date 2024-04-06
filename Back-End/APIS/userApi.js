@@ -190,12 +190,6 @@ userApp.post(
 );
 
 
-userApp.put('/editprofile', expressAsyncHandler(async (request, response) => {
-  let userCollectionObject = request.app.get("userCollectionObject");
-  const receivedObj = request.body;
-})
-);
-
 //private route for testing
 userApp.get('/test', verifyToken, (request, response) => {
   response.send({ message: "This reply is from private route" })

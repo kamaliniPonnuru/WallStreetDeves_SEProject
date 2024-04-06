@@ -35,7 +35,7 @@ postApp.post(
     const message_notify = newPostObj.createdBy + " added a new post";
     const user_type = "user";
     const m_p_type = "post"
-    await notificationsCollectionObject.insertOne({ recipient, message_notify, user_type, m_p_type })
+    await notificationsCollectionObject.insertOne({ recipient, message_notify, user_type, m_p_type, createdAt: Date.now() })
     response.send({ message: "New Post created" });
   })
 );
@@ -205,7 +205,7 @@ postApp.delete(
       const message_notify = "Your post with title " + post.post.title + " is deleted by admin";
       const user_type = "user";
       const m_p_type = "post"
-      await notificationsCollectionObject.insertOne({ recipient, message_notify, user_type, m_p_type })
+      await notificationsCollectionObject.insertOne({ recipient, message_notify, user_type, m_p_type, createdAt: Date.now() })
 
       await reportPostCollectionObject.deleteOne({ _id: new ObjectId(postId) });
 
@@ -217,25 +217,39 @@ postApp.delete(
   })
 );
 
-postApp.get(
-  "/increaselike/:postId",
+postApp.put(
+  "/setlike/:postId/:username",
   expressAsyncHandler(async (request, response) => {
     try {
       const postId = request.params.postId;
       const postCollectionObject = request.app.get("postCollectionObject");
+      const likeCollectionObject = request.app.get("likeCollectionObject");
+      const notificationsCollectionObject = request.app.get("notificationsCollectionObject");
 
+      // Get the current user's username (you need to implement user authentication to get the username)
+      const username = request.params.username; // Example: request.user.username
 
-      const updatedPost = await postCollectionObject.findOneAndUpdate(
-        { _id: new ObjectId(postId) },
-        { $inc: { likecount: 1 } },
-        { new: true }
-      );
+      // Check if the post is already liked by the current user
+      const existingLike = await likeCollectionObject.findOne({ postId, username });
+      if (existingLike) {
+        // Post already liked by the user, so decrease the like count and remove the like
+        await postCollectionObject.updateOne({ _id: new ObjectId(postId) }, { $inc: { likecount: -1 } });
+        await likeCollectionObject.deleteOne({ postId, username });
+        response.status(200).json({ message: 'Like removed successfully', liked: false });
+      } else {
+        // Post not liked by the user, so increase the like count and add the like
+        await postCollectionObject.updateOne({ _id: new ObjectId(postId) }, { $inc: { likecount: 1 } });
+        await likeCollectionObject.insertOne({ postId, username });
+        response.status(200).json({ message: 'Like added successfully', liked: true });
 
-      if (!updatedPost) {
-        return response.status(404).json({ message: 'Post not found' });
+        // Find the post in the postCollectionObject to get the createdBy field
+        const post = await postCollectionObject.findOne({ _id: new ObjectId(postId) });
+        const recipient = post.createdBy;
+        const message_notify = username + ' liked your post'
+        const user_type = "user";
+        const m_p_type = "like";
+        await notificationsCollectionObject.insertOne({ recipient, message_notify, user_type, m_p_type, createdAt: Date.now() });
       }
-
-      response.status(200).json({ message: 'Like count increased successfully', updatedPost });
     } catch (error) {
       console.error('Error increasing like count:', error);
       response.status(500).json({ message: 'Internal server error' });
@@ -243,28 +257,24 @@ postApp.get(
   })
 );
 
-
-postApp.get(
-  "/decreaselike/:postId",
+postApp.get('/getlikepost/:postId/:username',
   expressAsyncHandler(async (request, response) => {
     try {
       const postId = request.params.postId;
+      const username = request.params.username;
+      const likeCollectionObject = request.app.get("likeCollectionObject");
+
+      const existingLike = await likeCollectionObject.findOne({ postId, username });
+      const liked = !!existingLike; // Convert existingLike to boolean
+
+      // Fetch like count from postCollectionObject
       const postCollectionObject = request.app.get("postCollectionObject");
+      const post = await postCollectionObject.findOne({ _id: new ObjectId(postId) });
+      const likecount = post ? post.likecount : 0;
 
-
-      const updatedPost = await postCollectionObject.findOneAndUpdate(
-        { _id: new ObjectId(postId) },
-        { $dec: { likecount: 1 } },
-        { new: true }
-      );
-
-      if (!updatedPost) {
-        return response.status(404).json({ message: 'Post not found' });
-      }
-
-      response.status(200).json({ message: 'Like count increased successfully', updatedPost });
+      response.status(200).json({ liked, likecount });
     } catch (error) {
-      console.error('Error increasing like count:', error);
+      console.error('Error checking if post is liked:', error);
       response.status(500).json({ message: 'Internal server error' });
     }
   })

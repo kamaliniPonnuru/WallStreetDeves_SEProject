@@ -36,24 +36,26 @@ function Notifications() {
             <h2 style={{ fontWeight: "bold", color: "blue", marginBottom: "20px" }}>Notifications</h2>
             <div className="notification-cards">
                 {notifications.map((notification, index) => (
-                    <div 
-                        className="notification-card" 
-                        key={index} 
+                    <div
+                        className="notification-card"
+                        key={index}
                         onClick={() => handleCardClick(notification)}
-                        style={{ 
-                            border: "1px solid #ccc", 
+                        style={{
+                            border: "1px solid #ccc",
                             borderRadius: "5px",
-                            padding: "10px", 
-                            marginBottom: "10px", 
-                            backgroundColor: notification.m_p_type === "message" ? "#fdd" : "#dfd" 
+                            padding: "10px",
+                            marginBottom: "10px",
+                            backgroundColor: notification.m_p_type === "message" ? "#fdd" : "#dfd"
                         }}
                     >
                         <p style={{ fontWeight: "bold", marginBottom: "5px" }}>{notification.message_notify}</p>
-                        <p style={{ fontStyle: "italic" }}>{new Date().toLocaleString()}</p>
+                        
+                        <p style={{ fontStyle: "italic" }}>{new Date(notification.createdAt).toLocaleString()}</p>
                     </div>
                 ))}
             </div>
         </div>
+
     );
 }
 
