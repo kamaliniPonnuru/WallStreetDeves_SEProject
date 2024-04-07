@@ -11,7 +11,7 @@ import Posts from "../Posts/Posts";
 import Messages from "../messages/Messages";
 import Notifications from "../notifications/Notifications";
 import NewEvent from "../new_event/new_event";
-import Events from "../events/Events";
+import Events from "../new_event/get_event";
 
 
 function Userdashboard() {

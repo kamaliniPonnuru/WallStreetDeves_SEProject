@@ -29,7 +29,7 @@ const Events = () => {
     // Logic to handle editing the event
     console.log("Editing event:", event);
   };
-  
+
   const handleDeleteEvent = async (eventId) => {
     try {
       await axios.delete(`http://localhost:4000/event-api/events/${eventId}`);
@@ -41,7 +41,7 @@ const Events = () => {
       console.error("Error deleting event:", error);
     }
   };
-  
+
   return (
     <div className="container mt-5">
       <h1 className="mb-4">Events</h1>
@@ -65,7 +65,7 @@ const Events = () => {
             <p>Location:{event.location}</p>
             <p>Time: {event.dateTime}</p>
             <button className="btn btn-primary mr-2" onClick={() => handleEditEvent(event)}>Edit</button>
-    <button className="btn btn-danger" onClick={() => handleDeleteEvent(event._id)}>Delete</button>
+            <button className="btn btn-danger" onClick={() => handleDeleteEvent(event._id)}>Delete</button>
           </li>
         ))}
       </ul>
