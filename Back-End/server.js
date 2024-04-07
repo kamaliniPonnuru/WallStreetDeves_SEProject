@@ -34,6 +34,7 @@ mclient.connect(dbUrl)
   let likeCollectionObject=dbObj.collection("likeCollectionObject");
   let commentCollectionObject = dbObj.collection("commentcollection")
 
+  let eventCollectionObject=dbObj.collection("eventcollection");
 
   //sharing collection objects to APIs
   app.set("userCollectionObject",userCollectionObject);
@@ -47,6 +48,7 @@ mclient.connect(dbUrl)
   app.set("likeCollectionObject",likeCollectionObject);
   app.set("commentCollectionObject",commentCollectionObject);
 
+  app.set('eventCollectionObject',eventCollectionObject)
 
   console.log("DB connection success")
 })
@@ -62,6 +64,7 @@ const contactusApp = require("./APIS/contactusApi");
 const broadcastApp = require("./APIS/broadcastapi");
 const notificationApp = require("./APIS/notificationApi");
 const commentApp = require("./APIS/commentApi")
+const eventApp=require("./APIS/eventApi")
 //excute specific middleware based on path
 app.use("/user-api", userApp);
 app.use("/post-api", postApp);
@@ -71,6 +74,7 @@ app.use("/contactus-api", contactusApp);
 app.use("/broadcast-api", broadcastApp);
 app.use("/notification-api",notificationApp);
 app.use("/comment-api", commentApp);
+app.use("/event-api", eventApp)
 
 
 // dealing with page refresh

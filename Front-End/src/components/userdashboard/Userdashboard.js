@@ -10,6 +10,9 @@ import NewPost from "../NewPost/NewPost";
 import Posts from "../Posts/Posts";
 import Messages from "../messages/Messages";
 import Notifications from "../notifications/Notifications";
+import NewEvent from "../new_event/new_event";
+import Events from "../events/Events";
+
 
 function Userdashboard() {
   let { userObj } = useSelector((state) => state.user);
@@ -72,6 +75,15 @@ function Userdashboard() {
               </figure>
             </Link>
           </div>
+          <div class="user-dashboard-cards">
+            <Link eventKey="15" as={NavLink} to="/new-event" exact>
+              <figure class="user-dashboard-card">
+                <figcaption class="user-dashboard-card_title">
+                  Create New Event
+                </figcaption>
+              </figure>
+            </Link>
+          </div>
         </div>
 
 
@@ -86,7 +98,8 @@ function Userdashboard() {
               <Route path="/posts" element={<Posts />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="/notifications" element={<Notifications />} />
-
+              <Route path="/events" element={<Events />} />
+              <Route path="/new-event" element={<NewEvent />} />
             </Routes>
           </div>
         </div>
