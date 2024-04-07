@@ -5,7 +5,7 @@ import axios from 'axios';
 export const userLogin = createAsyncThunk('loginuser', async (userCredentialsObject, thunkApi) => {
   try {
     console.log(userCredentialsObject)
-    const response = await axios.post('/user-api/login', userCredentialsObject);
+    const response = await axios.post('http://localhost:4000/user-api/login', userCredentialsObject);
     console.log(response)
     const data = response.data;
 

@@ -19,11 +19,12 @@ import NewPost from "../NewPost/NewPost";
 import homeImg from "../../images/main_pic.png";
 import Admindashboard from '../admin/admindashboard/Admindashboard'
 import Messages from "../messages/Messages";
-import Events from "../events/Events";
 import Reportedposts from "../admin/reportedposts/Reportedposts";
 import Inquiry from "../admin/inquiries/Inquiry";
 import Notifications from "../notifications/Notifications";
 import Post from "../Posts/Post/Post";
+import NewEvent from "../new_event/new_event";
+import Events from "../new_event/get_event";
 
 function Header() {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
@@ -219,6 +220,7 @@ function Header() {
         <Route path="/login" exact element={<Login />} />
         <Route path="/contactus" exact element={<Contactus />} />
         <Route path="/events" exact element={<Events />} />
+        <Route path="/new-event" exact element={<NewEvent />} />
         <Route path="/new-post" exact element={<NewPost />} />
         <Route path="/profile" exact element={<UserProfile />} />
         <Route path="/userdashboard" exact element={<Userdashboard />} />
