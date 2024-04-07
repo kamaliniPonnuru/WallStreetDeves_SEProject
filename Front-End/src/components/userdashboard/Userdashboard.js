@@ -61,7 +61,7 @@ function Userdashboard() {
             <Link eventKey="13" as={NavLink} to="/notifications" exact>
               <figure class="user-dashboard-card">
                 <figcaption class="user-dashboard-card_title">
-                  Notification
+                  Notifications
                 </figcaption>
               </figure>
             </Link>
@@ -71,15 +71,6 @@ function Userdashboard() {
               <figure class="user-dashboard-card">
                 <figcaption class="user-dashboard-card_title">
                   Messages
-                </figcaption>
-              </figure>
-            </Link>
-          </div>
-          <div class="user-dashboard-cards">
-            <Link eventKey="15" as={NavLink} to="/new-event" exact>
-              <figure class="user-dashboard-card">
-                <figcaption class="user-dashboard-card_title">
-                  Create New Event
                 </figcaption>
               </figure>
             </Link>

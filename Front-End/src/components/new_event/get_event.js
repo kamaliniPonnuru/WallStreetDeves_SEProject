@@ -54,7 +54,7 @@ const Events = () => {
   return (
     <div className="container mt-5">
       <h1 className="mb-4">Events</h1>
-      <div className='container mt-3' style={{ textDecoration: 'none' }}>
+      <div className='container mt-3' style={{ textDecoration: 'none', marginBottom:20 }}>
         <div className='col-12'>
           {/* <div className='col-10'></div> */}
           <div >
@@ -73,7 +73,7 @@ const Events = () => {
             <h3>{event.event_name}</h3>
             <p>Location:{event.location}</p>
             <p>Time: {event.dateTime}</p>
-            <button className="btn btn-primary mr-2" onClick={() => handleEditEvent(event)}>Edit</button>
+            <button className="btn btn-primary mr-6" onClick={() => handleEditEvent(event)}>Edit</button>
             <button className="btn btn-danger" onClick={() => handleDeleteEvent(event._id)}>Delete</button>
           </li>
         ))}
