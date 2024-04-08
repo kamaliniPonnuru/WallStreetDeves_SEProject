@@ -50,8 +50,19 @@ function NewEvent() {
               placeholder="Enter Event Name.."
               {...register("event_name", { required: true })}
             />
-            {errors.title && (
+            {errors.name && (
               <p className="text-danger">* Name is required</p>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="url">
+            <Form.Label>Image Url: </Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter Image Url.."
+              {...register("image_url", { required: true })}
+            />
+            {errors.url && (
+              <p className="text-danger">* URL is required</p>
             )}
           </Form.Group>
 
@@ -62,7 +73,7 @@ function NewEvent() {
               placeholder="Enter Location.."
               {...register("location", { required: true })}
             />
-            {errors.content && (
+            {errors.location && (
               <p className="text-danger">* Location is required</p>
             )}
           </Form.Group>
