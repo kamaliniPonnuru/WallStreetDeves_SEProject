@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import './new_event.css';
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,6 +52,8 @@ const Events = () => {
   };
 
   return (
+    <>
+   
     <div className="container mt-5">
       <h1 className="mb-4">Events</h1>
       <div className='container mt-3' style={{ textDecoration: 'none', marginBottom:20 }}>
@@ -70,11 +72,19 @@ const Events = () => {
       <ul className="list-group">
         {events.map(event => (
           <li key={event._id} className="list-group-item">
+            <div className="event-details">
             <h3>{event.event_name}</h3>
             <p>Location:{event.location}</p>
             <p>Time: {event.dateTime}</p>
-            <button className="btn btn-primary mr-6" onClick={() => handleEditEvent(event)}>Edit</button>
-            <button className="btn btn-danger" onClick={() => handleDeleteEvent(event._id)}>Delete</button>
+           
+            </div>
+            <div className="event-image">
+      <img src={event.image_url} alt="Event" />
+    </div>
+    <div className="buttons">
+      <button className="btn btn-primary mr-6" onClick={() => handleEditEvent(event)}>Edit</button>
+      <button className="btn btn-danger" onClick={() => handleDeleteEvent(event._id)}>Delete</button>
+    </div>
           </li>
         ))}
       </ul>
@@ -89,6 +99,7 @@ const Events = () => {
         </ul>
       </nav>
     </div>
+     </>
   );
 };
 
