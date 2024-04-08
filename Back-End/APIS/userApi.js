@@ -74,6 +74,52 @@ userApp.post(
   })
 );
 
+userApp.put('/editprofile', expressAsyncHandler(async (req, res) => {
+  const { name, email, username, original_username } = req.body; 
+
+  try {
+    const userCollectionObject = req.app.get("userCollectionObject");
+
+    let updatedUserName, updatedUserEmail, updatedUsername;
+
+    if (name !== null && name !== "") {
+      updatedUserName = await userCollectionObject.findOneAndUpdate(
+        { username: original_username },
+        { $set: {name} },
+        { new: true }
+      );
+    }
+    if (email !== null && email !== "" ) {
+      updatedUserEmail = await userCollectionObject.findOneAndUpdate(
+        { username: original_username },
+        { $set: {email} },
+        { new: true }
+      );
+    }
+    if (username !== null && username !== "" ){
+      updatedUsername = await userCollectionObject.findOneAndUpdate(
+        { username: original_username },
+        { $set: {username} },
+        { new: true }
+      );
+    }
+
+    if (!updatedUserName && !updatedUserEmail && !updatedUsername) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const updatedUser = updatedUserName || updatedUserEmail || updatedUsername;
+
+    res.status(200).json({ message: 'User profile updated successfully', user: updatedUser }); 
+  } catch (error) {
+    console.error('Error updating user profile:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}));
+
+
+
+
 userApp.put("/change-password", expressAsyncHandler(async (request, response) => {
   // Extract username and new password from the request body
   const { username, newPassword } = request.body;

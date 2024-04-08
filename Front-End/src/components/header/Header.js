@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Header.css";
 import { Container, Nav, Navbar, NavDropdown, Modal, Button, Form } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
@@ -7,26 +7,38 @@ import Home from "../Home";
 import Signup from "../Signup";
 import Login from "../Login";
 import Contactus from "../Contactus";
-import Userprofile from "../user-profile/UserProfile";
+import UserProfile from "../userprofile/UserProfile";
 import { useSelector } from "react-redux";
 import { clearLoginStatus } from "../../slices/userSlice";
+import { adminClearLoginStatus } from "../../slices/adminSlice"
 import { useDispatch } from "react-redux";
 import Userdashboard from "../userdashboard/Userdashboard";
 import { useNavigate, Navigate } from "react-router-dom";
 import Posts from "../Posts/Posts";
 import NewPost from "../NewPost/NewPost";
+import homeImg from "../../images/main_pic.png";
+import Admindashboard from '../admin/admindashboard/Admindashboard'
+import Messages from "../messages/Messages";
+import Reportedposts from "../admin/reportedposts/Reportedposts";
+import Inquiry from "../admin/inquiries/Inquiry";
+import Notifications from "../notifications/Notifications";
+import Post from "../Posts/Post/Post";
 import NewEvent from "../new_event/new_event";
 import Events from "../new_event/get_event";
 
 function Header() {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [newPassword, setNewPassword] = useState("");
-  const [confirmNewPassword,setConfirmNewPassword] =useState("")
+  const [confirmNewPassword, setConfirmNewPassword] = useState("")
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isSuccess, userObj } = useSelector((state) => state.user);
+  const { isError: adminIsError, isLoading: adminIsLoading, isSuccess: adminIsSuccess, errMsg: adminErrMsg, adminObj } = useSelector(
+    (state) => state.admin
+  );
+
 
   // Function to handle password change
   const handleChangePassword = async () => {
@@ -34,7 +46,7 @@ function Header() {
       alert("Passwords do not match")
       return;
     }
-  
+
     try {
       const response = await fetch("/user-api/change-password", {
         method: "PUT",
@@ -43,7 +55,7 @@ function Header() {
         },
         body: JSON.stringify({ username: userObj.username, newPassword }),
       });
-  
+
       if (response.ok) {
         setNewPassword("");
         setConfirmNewPassword("");
@@ -63,71 +75,95 @@ function Header() {
       alert("Failed to update password");
     }
   };
-  
+
   // Function to handle user logout
   const userLogout = () => {
-    // Perform logout actions here
     localStorage.clear();
     dispatch(clearLoginStatus());
     navigate("/login");
   };
+
+  const adminLogout = () => {
+    localStorage.clear();
+    dispatch(adminClearLoginStatus());
+    navigate("/login");
+  };
+
+  const userType = localStorage.getItem('userType');
 
 
   return (
     <div>
       <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">Alma Mingle</Navbar.Brand>
+          <Navbar.Brand href="/">
+            <img src={homeImg} alt="" className="shadow-lg rounded" style={{ height: 60, width: 150 }} />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ms-auto">
-              {isSuccess !== true ? (
+              {isSuccess !== true && adminIsSuccess !== true ? (
                 <>
                   {/* These links can be visible when no user logged in */}
-                  <Nav.Item>
-                    <Nav.Link eventKey="1" as={NavLink} to="/">
+
+                  <div className="navitem">
+                    <NavLink to="/" exact>
                       Home
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                  </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="2" as={NavLink} to="/signup">
+                  <div className="navitem">
+                    <NavLink to="/signup" exact>
                       Signup
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                  </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="3" as={NavLink} to="/login">
+                  <div className="navitem">
+                    <NavLink to="/login" exact>
                       Login
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                  </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="4" as={NavLink} to="/contactus">
-                      ContactUs
-                    </Nav.Link>
-                  </Nav.Item>
+                  <div className="navitem">
+                    <NavLink to="/contactus" exact>
+                      Contact Us
+                    </NavLink >
+                  </div>
                 </>
-              ) : (
+              ) : isSuccess === true && adminIsSuccess !== true ? (
                 <>
                   {/* This dropdown is visible only when a user is logged in */}
-                  <Nav.Item>
-                    <Nav.Link eventKey="1" as={NavLink} to="/userdashboard">
-                      User Dashboard
-                    </Nav.Link>
-                  </Nav.Item>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="2" as={NavLink} to="/posts">
-                      Posts
-                    </Nav.Link>
-                  </Nav.Item>
+                  <div className="navitem">
+                    <NavLink to="/userdashboard" exact>
+                      Dashboard
+                    </NavLink >
+                  </div>
 
-                  <Nav.Item>
-                    <Nav.Link eventKey="3" as={NavLink} to="/events">
+                  <div className="navitem">
+                    <NavLink to="/posts" exact>
+                      View Posts
+                    </NavLink >
+                  </div>
+
+                  <div className="navitem">
+                    <NavLink to="/notifications" exact>
+                      Notifications
+                    </NavLink >
+                  </div>
+
+                  <div className="navitem">
+                    <NavLink to="/messages" exact>
+                      Messages
+                    </NavLink >
+                  </div>
+
+                  <div className="navitem">
+                    <NavLink to="/events" exact>
                       Events
-                    </Nav.Link>
-                  </Nav.Item>
+                    </NavLink >
+                  </div>
+
                   <NavDropdown
                     title={userObj.username}
                     //id="collasible-nav-dropdown"
@@ -143,24 +179,58 @@ function Header() {
                     </NavDropdown.Item>
                   </NavDropdown>
                 </>
-              )}
+              ) : adminIsSuccess === true && isSuccess !== true ? (
+                <>
+                  <div className="navitem">
+                    <NavLink to="/admindashboard" exact>
+                      Dashboard
+                    </NavLink >
+                  </div>
+
+                  <div className="navitem">
+                    <NavLink to="/reportedposts" exact>
+                      Reported posts
+                    </NavLink >
+                  </div>
+
+                  <div className="navitem">
+                    <NavLink to="/inquiries" exact>
+                      Inquiries
+                    </NavLink >
+                  </div>
+
+                  <NavDropdown
+                    title={adminObj.username}
+                    id="drop-down"
+                  >
+                    <NavDropdown.Item onClick={adminLogout}>
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </>
+              ) : (<> </>)
+              }
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/contactus" element={<Contactus />} />
-        <Route path="/posts" element={<Posts />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/new-post" element={<NewPost />} />
-        <Route path="/new-event" element={<NewEvent />} />
-        <Route path="/userdashboard" element={<Userdashboard />}>
-          <Route path="profile" element={<Userprofile />} />
-          <Route path="" element={<Navigate to="profile" replace={true} />} />
-        </Route>
+        <Route path="/" exact element={<Home />} />
+        <Route path="/signup" exact element={<Signup />} />
+        <Route path="/login" exact element={<Login />} />
+        <Route path="/contactus" exact element={<Contactus />} />
+        <Route path="/events" exact element={<Events />} />
+        <Route path="/new-event" exact element={<NewEvent />} />
+        <Route path="/new-post" exact element={<NewPost />} />
+        <Route path="/profile" exact element={<UserProfile />} />
+        <Route path="/userdashboard" exact element={<Userdashboard />} />
+        <Route path="/admindashboard" exact element={<Admindashboard />} />
+        <Route path="/posts" exact element={<Posts />} />
+        <Route path="/messages" exact element={<Messages />} />
+        <Route path="/notifications" exact element={<Notifications />} />
+        <Route path="/reportedposts" exact element={<Reportedposts />} />
+        <Route path="/inquiries" exact element={<Inquiry />} />
+        <Route path="/post/:id" element={<Post/>}/>
       </Routes>
 
       {/* Change Password Modal */}

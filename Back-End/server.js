@@ -26,12 +26,28 @@ mclient.connect(dbUrl)
   let userCollectionObject=dbObj.collection("usercollection");
   let adminCollectionObject=dbObj.collection("admincollection");
   let postCollectionObject=dbObj.collection("postcollection");
+  let reportPostCollectionObject=dbObj.collection("reportpostcollection");
+  let messageCollectionObject=dbObj.collection("messagecollection");
+  let contactusCollectionObject=dbObj.collection("contactuscollection");
+  let broadcastCollectionObject=dbObj.collection("broadcastcollection");
+  let notificationsCollectionObject=dbObj.collection("notificationscollection");
+  let likeCollectionObject=dbObj.collection("likeCollectionObject");
+  let commentCollectionObject = dbObj.collection("commentcollection")
+
   let eventCollectionObject=dbObj.collection("eventcollection");
 
   //sharing collection objects to APIs
   app.set("userCollectionObject",userCollectionObject);
   app.set("adminCollectionObject",adminCollectionObject);
   app.set('postCollectionObject',postCollectionObject)
+  app.set("reportPostCollectionObject",reportPostCollectionObject);
+  app.set("messageCollectionObject",messageCollectionObject);
+  app.set("contactusCollectionObject",contactusCollectionObject);
+  app.set("broadcastCollectionObject",broadcastCollectionObject);
+  app.set("notificationsCollectionObject",notificationsCollectionObject);
+  app.set("likeCollectionObject",likeCollectionObject);
+  app.set("commentCollectionObject",commentCollectionObject);
+
   app.set('eventCollectionObject',eventCollectionObject)
 
   console.log("DB connection success")
@@ -41,11 +57,23 @@ mclient.connect(dbUrl)
 
 //import userApp and productApp
 const userApp = require("./APIS/userApi");
-const postApp = require('./APIS/postApi')
+const postApp = require('./APIS/postApi');
+const adminApp = require("./APIS/adminApi");
+const messageApp = require("./APIS/messageApi");
+const contactusApp = require("./APIS/contactusApi");
+const broadcastApp = require("./APIS/broadcastapi");
+const notificationApp = require("./APIS/notificationApi");
+const commentApp = require("./APIS/commentApi")
 const eventApp=require("./APIS/eventApi")
 //excute specific middleware based on path
 app.use("/user-api", userApp);
 app.use("/post-api", postApp);
+app.use("/admin-api", adminApp);
+app.use("/message-api", messageApp);
+app.use("/contactus-api", contactusApp);
+app.use("/broadcast-api", broadcastApp);
+app.use("/notification-api",notificationApp);
+app.use("/comment-api", commentApp);
 app.use("/event-api", eventApp)
 
 

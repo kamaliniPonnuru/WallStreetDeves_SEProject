@@ -40,52 +40,52 @@ function NewEvent() {
 
   return (
     <>
-    <div className="new-post-card" style={{ marginTop: '40px' }}>
-      <h2>Create New Event</h2>
-      <Form onSubmit={handleSubmit(onFormSubmit)}>
-        <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Event Name: </Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter Event Name.."
-            {...register("event_name", { required: true })}
-          />
-          {errors.title && (
-            <p className="text-danger">* Name is required</p>
-          )}
-        </Form.Group>
+      <div className="new-post-card" style={{ marginTop: '40px' }}>
+        <h2>Create New Event</h2>
+        <Form onSubmit={handleSubmit(onFormSubmit)}>
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Label>Event Name: </Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter Event Name.."
+              {...register("event_name", { required: true })}
+            />
+            {errors.title && (
+              <p className="text-danger">* Name is required</p>
+            )}
+          </Form.Group>
 
-        <Form.Group className="mb-3" controlId="location">
-          <Form.Label>Location: </Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter Location.."
-            {...register("location", { required: true })}
-          />
-          {errors.content && (
-            <p className="text-danger">* Location is required</p>
-          )}
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="dateTime">
-  <Form.Label>Date & Time: </Form.Label>
-  <Form.Control
-    type="datetime-local"
-    placeholder="Enter Date & Time.."
-    {...register("dateTime", { required: true })}
-  />
-  {errors.dateTime && (
-    <p className="text-danger">* Date & Time is required</p>
-  )}
-</Form.Group>
+          <Form.Group className="mb-3" controlId="location">
+            <Form.Label>Location: </Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter Location.."
+              {...register("location", { required: true })}
+            />
+            {errors.content && (
+              <p className="text-danger">* Location is required</p>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="dateTime">
+            <Form.Label>Date & Time: </Form.Label>
+            <Form.Control
+              type="datetime-local"
+              placeholder="Enter Date & Time.."
+              {...register("dateTime", { required: true })}
+            />
+            {errors.dateTime && (
+              <p className="text-danger">* Date & Time is required</p>
+            )}
+          </Form.Group>
 
 
 
-        <Button variant="primary" type="submit">
-          Create Event
-        </Button>
-      </Form>
+          <Button variant="primary" type="submit">
+            Create Event
+          </Button>
+        </Form>
 
-    </div>
+      </div>
     </>
   );
 }

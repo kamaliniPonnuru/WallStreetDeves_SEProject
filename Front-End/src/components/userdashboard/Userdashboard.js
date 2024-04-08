@@ -5,9 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { Nav } from "react-bootstrap";
 import { Outlet, NavLink } from "react-router-dom";
 import { Link, Routes, Route } from 'react-router-dom';
-import Userprofile from "../user-profile/UserProfile";
+import UserProfile from "../userprofile/UserProfile";
 import NewPost from "../NewPost/NewPost";
+import Posts from "../Posts/Posts";
+import Messages from "../messages/Messages";
+import Notifications from "../notifications/Notifications";
 import NewEvent from "../new_event/new_event";
+import Events from "../new_event/get_event";
 
 
 function Userdashboard() {
@@ -19,67 +23,56 @@ function Userdashboard() {
 
   return (
     <>
-      {/* <img
-        src={userObj.profileImg}
-        className="float-end m-5 profile-pic"
-        alt=""
-      /> */}
-      {/* <h3>DashBoard</h3>
-        <Nav className="justify-content-center mt-3" defaultActiveKey="/profile">
-        <Nav.Item>
-            <Nav.Link to="userdashboard" as={NavLink}>
-              Home
-            </Nav.Link>
-          </Nav.Item>
-          
-          <Nav.Item>
-            <Nav.Link to="cart" as={NavLink}>
-              Notifications
-            </Nav.Link>
-          </Nav.Item>
-
-          <Nav.Item>
-            <Nav.Link to="profile" as={NavLink}>
-              User Profile
-            </Nav.Link>
-          </Nav.Item>
-          
-        </Nav>
-        <div className="mt-3">
-          <Outlet />
-        </div> */}
       <>
-        <div style={{ display: 'flex', alignItems: 'center', marginTop:'40px', marginLeft:'30px' }}>
-          <h3 style={{ marginRight: '10px' }}>Hello, {userObj.username}!</h3>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '40px', marginLeft: '30px' }}>
+          <h3 style={{ marginRight: '10px' }}>Hello, {userObj.name}!</h3>
           <h5>Connect with your alumni network.</h5>
         </div>
+
         <div className="userdashboard-container">
-          <div className="user-dashboard-card">
-            <Link to="/userdashboard/profile" className="user-dashboard-card-link">
-              <div className="user-dashboard-card-content">
-                <h3>View Profile</h3>
-              </div>
+          <div class="user-dashboard-cards">
+            <Link eventKey="10" as={NavLink} to="/profile" exact>
+              <figure class="user-dashboard-card">
+                <figcaption class="user-dashboard-card_title">
+                  View Profile
+                </figcaption>
+              </figure>
             </Link>
           </div>
-          <div className="user-dashboard-card">
-            <Link to="/new-post" className="user-dashboard-card-link">
-              <div className="user-dashboard-card-content">
-                <h3>Create New Post</h3>
-              </div>
+          <div class="user-dashboard-cards">
+            <Link eventKey="11" as={NavLink} to="/posts" exact>
+              <figure class="user-dashboard-card">
+                <figcaption class="user-dashboard-card_title">
+                  Posts
+                </figcaption>
+              </figure>
             </Link>
           </div>
-          <div className="user-dashboard-card">
-            <Link to="/userdashboard/edit-profile" className="user-dashboard-card-link">
-              <div className="user-dashboard-card-content">
-                <h3>Edit Profile</h3>
-              </div>
+          <div class="user-dashboard-cards">
+            <Link eventKey="12" as={NavLink} to="/events" exact>
+              <figure class="user-dashboard-card">
+                <figcaption class="user-dashboard-card_title">
+                  Events
+                </figcaption>
+              </figure>
             </Link>
           </div>
-          <div className="user-dashboard-card">
-            <Link to="/new-event" className="user-dashboard-card-link">
-              <div className="user-dashboard-card-content">
-                <h3>Create New Event</h3>
-              </div>
+          <div class="user-dashboard-cards">
+            <Link eventKey="13" as={NavLink} to="/notifications" exact>
+              <figure class="user-dashboard-card">
+                <figcaption class="user-dashboard-card_title">
+                  Notifications
+                </figcaption>
+              </figure>
+            </Link>
+          </div>
+          <div class="user-dashboard-cards">
+            <Link eventKey="14" as={NavLink} to="/messages" exact>
+              <figure class="user-dashboard-card">
+                <figcaption class="user-dashboard-card_title">
+                  Messages
+                </figcaption>
+              </figure>
             </Link>
           </div>
         </div>
@@ -91,8 +84,12 @@ function Userdashboard() {
 
           <div>
             <Routes>
-              <Route path="/userdashboard/profile" element={<Userprofile />} />
               <Route path="/new-post" element={<NewPost />} />
+              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/posts" element={<Posts />} />
+              <Route path="/messages" element={<Messages />} />
+              <Route path="/notifications" element={<Notifications />} />
+              <Route path="/events" element={<Events />} />
               <Route path="/new-event" element={<NewEvent />} />
             </Routes>
           </div>

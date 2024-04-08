@@ -6,20 +6,32 @@
     padding: 5px 8px;
     border-radius: 3px;
   }
-  
-  a{
-    color:aliceblue;
-    text-decoration: none;
-  }
-  
-  a:hover{
-    color:aliceblue;
-  }
+
   
   #drop-down{
-    /* background-color: #4cb84c; */
     color:#4cb84c;
     font-weight: bold;
-    
-    /* border-radius: 5px; */
+
   }
+
+  .navitem {
+    margin: 0;
+    padding: 5px;
+  }
+  
+  .navitem a {
+    color: #c5baba;
+    text-decoration: none;
+    padding: 10px 15px;
+  }
+  
+  .navitem a:hover {
+    background-color: #000000;
+  }
+  
+  .navitem a.active {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+  }
+  
