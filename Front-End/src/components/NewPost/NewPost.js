@@ -85,7 +85,7 @@ function NewPost() {
           )}
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="visibility">
+        {/* <Form.Group className="mb-3" controlId="visibility">
           <Form.Label>Visibility:</Form.Label>
           <Form.Select
             {...register("visibility", { required: true })}
@@ -96,7 +96,7 @@ function NewPost() {
           {errors.visibility && (
             <p className="text-danger">* Visibility is required</p>
           )}
-        </Form.Group>
+        </Form.Group> */}
 
         <Button variant="primary" type="submit">
           Create Post
