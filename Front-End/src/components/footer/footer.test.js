@@ -1,27 +1,26 @@
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import Footer from "./Footer";
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import Footer from './Footer';
 
-describe("Footer Component", () => {
-  test("renders footer correctly", () => {
+describe('Footer Component', () => {
+  it('renders footer text correctly', () => {
     render(<Footer />);
+    const footerText = screen.getByText(/AlmaMingle/i);
+    expect(footerText).toBeInTheDocument();
+  });
 
-    // Assert that the footer text parts are rendered
-    const yearText = screen.getByText(/@2024/i);
+  it('renders current year correctly', () => {
+    render(<Footer />);
+    const currentYear = new Date().getFullYear();
+    const yearText = screen.getByText(new RegExp(currentYear));
     expect(yearText).toBeInTheDocument();
+  });
 
-    const universityText = screen.getByText(/University of North Texas/i);
-    expect(universityText).toBeInTheDocument();
-
-    const rightsText = screen.getByText(/All Rights Reserved/i);
-    expect(rightsText).toBeInTheDocument();
-
-    // Assert that the Terms of Use link is rendered
+  it('renders terms of use and privacy links', () => {
+    render(<Footer />);
     const termsOfUseLink = screen.getByText(/Terms of Use/i);
+    const privacyLink = screen.getByText(/Privacy/i);
     expect(termsOfUseLink).toBeInTheDocument();
-
-    // Assert that the Privacy link is rendered
-    const privacyLink = screen.getByText(/Privacy /i);
     expect(privacyLink).toBeInTheDocument();
   });
 });
