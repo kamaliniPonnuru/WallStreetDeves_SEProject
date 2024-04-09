@@ -94,7 +94,7 @@ function Header() {
 
   return (
     <div>
-      <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
+      <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">  
         <Container>
           <Navbar.Brand href="/">
             <img src={homeImg} alt="" className="shadow-lg rounded" style={{ height: 60, width: 150 }} />
