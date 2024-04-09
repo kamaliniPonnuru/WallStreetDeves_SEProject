@@ -21,21 +21,24 @@ function ContactUs() {
     try {
       await axios.post('http://localhost:4000/contactus-api/send-inquiry', formData);
       setAlertMessage('Message sent successfully');
-      alert("Message Sent Successfully")
     } catch (error) {
       console.error('Error sending message:', error);
+      console.log('Form data:', formData); // Log form data to see if it's correctly populated
       setAlertMessage('Failed to send message');
     }
   };
+  
+  
 
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
       <h1 style={{ color: '#003366', fontSize: '2.5rem', marginBottom: '1.5rem' }}>Contact Us</h1>
       {alertMessage && (
-        <div className="alert alert-success" role="alert">
-          {alertMessage}
-        </div>
-      )}
+  <div className={`alert ${alertMessage === 'Message sent successfully' ? 'alert-success' : 'alert-danger'}`} role="alert">
+    {alertMessage}
+  </div>
+  )}
+
       <p style={{ fontSize: '1.1rem', lineHeight: '1.6' }}>
         Welcome to AlmaMingle, the premier blog post website for alumni of the University of North Texas (UNT). We are dedicated to connecting UNT graduates, sharing stories, and fostering a vibrant community. Whether you have questions, feedback, or just want to share your journey since graduation, we're here to listen.
       </p>
@@ -65,24 +68,27 @@ function ContactUs() {
 
         <h2 style={{ color: '#003366', fontSize: '1.8rem', marginTop: '2rem', marginBottom: '1rem' }}>Contact Form:</h2>
         <form style={{ textAlign: 'left' }} onSubmit={handleSubmit}>
-          <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Name:</label>
+          <label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Name:</label>
           <input
             type="text"
+            id="name"
             name="name"
             value={formData.name}
             onChange={handleChange}
             style={{ width: '100%', padding: '0.5rem', fontSize: '1rem', marginBottom: '1rem' }}
           />
-          <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Email:</label>
+          <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Email:</label>
           <input
             type="email"
+            id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             style={{ width: '100%', padding: '0.5rem', fontSize: '1rem', marginBottom: '1rem' }}
           />
-          <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Subject:</label>
+          <label htmlFor="subject" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Subject:</label>
           <select
+            id="subject"
             name="subject"
             value={formData.subject}
             onChange={handleChange}
@@ -93,8 +99,9 @@ function ContactUs() {
             <option value="submission">Alumni Story Submission</option>
             <option value="other">Other</option>
           </select>
-          <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Message:</label>
+          <label htmlFor="message" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Message:</label>
           <textarea
+            id="message"
             name="message"
             value={formData.message}
             onChange={handleChange}
