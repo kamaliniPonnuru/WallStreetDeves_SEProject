@@ -1,13 +1,17 @@
-//import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./Corousel.css";
-import sprite from "../../SVG/sprite.svg";
+import corousel_1 from '../../images/corousel_1.jpg';
+import corousel_2 from '../../images/corousel_2.png';
+import corousel_3 from '../../images/corousel_3.jpg';
+import corousel_4 from '../../images/corousel_4.jpg';
+
 import { useEffect, useState } from "react";
 
 const images = [
-  "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/back06.jpg",
-  "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/back07.jpg",
-  "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/back04.jpg",
+  corousel_1,
+  corousel_2,
+  corousel_3,
+  corousel_4
 ];
 
 const Carousel = () => {

@@ -6,8 +6,6 @@
     padding: 5px 8px;
     border-radius: 3px;
   }
-
-  
   #drop-down{
     color:#4cb84c;
     font-weight: bold;
@@ -30,7 +28,7 @@
   }
   
   .navitem a.active {
-    background-color: #007bff;
+    background-color: #1a4f8d;
     color: #fff;
     border-radius: 5px;
   }

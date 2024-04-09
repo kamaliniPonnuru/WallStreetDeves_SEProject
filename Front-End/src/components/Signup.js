@@ -59,7 +59,7 @@ function Signup() {
 
   return (
     <Container>
-      <div className="display-2 text-center text-info">Signup</div>
+      <div className="display-2 text-center text-primary">Signup</div>
       <div className="row">
         <div className="col-12 col-sm-8 col-md-6 mx-auto">
           <Form onSubmit={handleSubmit(onFormSubmit)}>
