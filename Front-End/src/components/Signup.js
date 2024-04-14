@@ -142,6 +142,21 @@ function Signup() {
               )}
             </Form.Group>
 
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="security">Security Question</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter any favourite number"
+                {...register("security", { required: true })}
+                id="security"
+              />
+              {/* validation error message for city */}
+              {errors.city && (
+                <p className="text-danger">* This Question is required</p>
+              )}
+            </Form.Group>
+
+
             <Button className="general_button" variant="primary" type="submit">
               Signup <MdLogin />
             </Button>

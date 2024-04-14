@@ -143,6 +143,51 @@ userApp.put("/change-password", expressAsyncHandler(async (request, response) =>
 
 }));
 
+userApp.post("/forgotpassword", expressAsyncHandler(async (request, response) => {
+  // Extract username and new password from the request body
+  const { username, securityQuestion } = request.body;
+
+  try {
+    const userCollectionObject = request.app.get("userCollectionObject");
+    const user = await userCollectionObject.findOne({ username });
+    if (!user) {
+      response.status(404).json({ message: "User not found" });
+    }
+
+    if(user.security === securityQuestion){
+      response.status(200).json({message: "Username and Security Matched"})
+    }
+
+    
+  } catch (error) {
+    console.error("Error updating password:", error);
+    response.status(500).json({ message: "Failed to update password" });
+  }
+
+}));
+
+// userApp.put("/changepassword", expressAsyncHandler(async (request, response) => {
+//   // Extract username and new password from the request body
+//   const { username, newPassword } = request.body;
+
+//   try {
+//     const userCollectionObject = request.app.get("userCollectionObject");
+//     const user = await userCollectionObject.findOne({ username });
+//     if (!user) {
+//       return response.status(404).json({ message: "User not found" });
+//     }
+
+//     const hashedPassword = await bcryptjs.hash(newPassword, 6);
+
+//     await userCollectionObject.updateOne({ username }, { $set: { password: hashedPassword } });
+
+//     response.status(200).json({ message: "Password updated successfully" });
+//   } catch (error) {
+//     console.error("Error updating password:", error);
+//     response.status(500).json({ message: "Failed to update password" });
+//   }
+
+// }));
 
 userApp.post(
   "/create-user",
