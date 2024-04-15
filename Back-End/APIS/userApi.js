@@ -157,6 +157,9 @@ userApp.post("/forgotpassword", expressAsyncHandler(async (request, response) =>
     if(user.security === securityQuestion){
       response.status(200).json({message: "Username and Security Matched"})
     }
+    else{
+      response.status(404).json({message: "Security answer is not matched"})
+    }
 
     
   } catch (error) {

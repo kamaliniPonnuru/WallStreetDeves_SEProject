@@ -35,7 +35,9 @@ function Login() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [forgotPasswordError, setForgotPasswordError] = useState("");
+  const [secondforgotPasswordError, setsecondforgotPasswordError] = useState("");
 
+  
   const handleCloseModal = () => {
     setShowModal(false);
     resetForgotPasswordForm();
@@ -52,6 +54,7 @@ function Login() {
     setNewPassword("");
     setConfirmPassword("");
     setForgotPasswordError("");
+    setsecondforgotPasswordError("")
   };
 
   const handleForgotPassword = () => {
@@ -86,7 +89,7 @@ function Login() {
         setShowModal(false);
         setShowPasswordModal(true);
       } else {
-        setForgotPasswordError("Username or security question is incorrect.");
+        setForgotPasswordError(response.data.message);
       }
     } catch (error) {
       setForgotPasswordError("Failed to submit. Please try again.");
@@ -95,6 +98,7 @@ function Login() {
 
   const handlePasswordChangeSubmit = async () => {
     try {
+      setsecondforgotPasswordError("")
       const response = await axios.put("http://localhost:4000/user-api/change-password", {
         username,
         newPassword,
@@ -102,7 +106,7 @@ function Login() {
       alert("Password updated successfully")
       setShowPasswordModal(false);
     } catch (error) {
-      setForgotPasswordError("Failed to update password. Please try again.");
+      setsecondforgotPasswordError("Failed to update password. Please try again.");
     }
   };
 
@@ -156,17 +160,27 @@ function Login() {
               )}
             </Form.Group>
 
-            <Button
-              className="general_button"
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading || adminIsLoading ? (
-                <Spinner animation="border" size="sm" />
-              ) : (
-                "Login"
-              )}
-            </Button>
+            <div className="d-flex justify-content-between">
+              <Button
+                // className="general_button"
+                onClick={handleForgotPassword}
+                variant="link"
+              >
+                Forgot Password?
+              </Button>
+              <Button
+                className="general_button"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading || adminIsLoading ? (
+                  <Spinner animation="border" size="sm" />
+                ) : (
+                  "Login"
+                )}
+              </Button>
+            </div>
+
 
             {isError && <Alert variant="danger">{errMsg}</Alert>}
           </Form>
@@ -237,8 +251,8 @@ function Login() {
                   />
                 </Form.Group>
               </Form>
-              {forgotPasswordError && (
-                <Alert variant="danger">{forgotPasswordError}</Alert>
+              {secondforgotPasswordError && (
+                <Alert variant="danger">{secondforgotPasswordError}</Alert>
               )}
             </Modal.Body>
             <Modal.Footer>
@@ -255,14 +269,7 @@ function Login() {
             </Modal.Footer>
           </Modal>
 
-          {/* Forgot Password Link */}
-          <Button
-            className="general_button"
-            onClick={handleForgotPassword}
-            variant="link"
-          >
-            Forgot Password?
-          </Button>
+
         </div>
       </div>
     </div>

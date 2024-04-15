@@ -39,6 +39,7 @@ const TempPost = ({ post }) => {
       if ('likecount' in response.data) {
         setLikeCount(response.data.likecount);
       }
+      // window.location.reload(); 
     } catch (error) {
       console.error('Error increasing like count:', error);
     }
