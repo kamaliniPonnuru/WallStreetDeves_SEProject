@@ -12,12 +12,13 @@ const TempPost = ({ post }) => {
   const [likeCount, setLikeCount] = useState(0);
   const [comments, setComments] = useState([]);
   const [showCommentSection, setShowCommentSection] = useState(false); // State to toggle comment section
+  const [key, setKey] = useState(0); // Key to force re-render
   const { userObj } = useSelector((state) => state.user);
 
   useEffect(() => {
     getLikeStatus(post._id);
     fetchComments(post._id);
-  }, [post._id]);
+  }, [post._id, key]); // Include key in dependency array
 
   const handleChange = (event) => {
     setComment(event.target.value);
@@ -34,12 +35,10 @@ const TempPost = ({ post }) => {
         return;
       }
       const response = await axios.put(`/post-api/setlike/${postId}/${username}`);
-      const { liked } = response.data;
+      const { liked, likecount } = response.data; // Update like count from API response
       setLiked(liked);
-      if ('likecount' in response.data) {
-        setLikeCount(response.data.likecount);
-      }
-      // window.location.reload(); 
+      setLikeCount(likecount);
+      setKey(prevKey => prevKey + 1); // Increment key to force re-render
     } catch (error) {
       console.error('Error increasing like count:', error);
     }
