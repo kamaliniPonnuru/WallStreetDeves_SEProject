@@ -129,14 +129,13 @@ postApp.get(
 
     // Parse query parameters
     const page = parseInt(request.query.page) || 1; // Current page, default to 1
-    const visibility = request.query.visibility || 'public'; // Post visibility, default to public
     const currentUser = request.query.currentUser; // Get currentUser parameter
 
     // Calculate skip value for pagination
     const skip = (page - 1) * ITEMS_PER_PAGE;
 
-    // Construct the query object based on visibility and currentUser parameters
-    let query = { visibility };
+    // Construct the query object based on currentUser parameter
+    let query = {};
     if (currentUser) {
       // Fetch posts excluding the ones created by the current user
       query.createdBy = { $ne: currentUser };
@@ -155,6 +154,7 @@ postApp.get(
     response.send({ message: "Posts list", payload: { posts, totalPages } });
   })
 );
+
 
 
 

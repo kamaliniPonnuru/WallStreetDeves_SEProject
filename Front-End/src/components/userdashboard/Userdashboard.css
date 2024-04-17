@@ -1,12 +1,12 @@
 .userdashboard-container{
   list-style: none; 
-  padding: 40px; 
+  padding: 20px; 
   margin: 10px; 
   display: flex;
-  gap: 10px;
+  gap: 9px;
   flex-wrap: wrap;
   flex-direction: row;
-  width: 93vw;
+  width: 95vw;
   margin-bottom: 20px;
 }
 

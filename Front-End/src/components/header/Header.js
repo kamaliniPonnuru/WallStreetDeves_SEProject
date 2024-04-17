@@ -94,7 +94,7 @@ function Header() {
 
   return (
     <div>
-      <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
+      <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">  
         <Container>
           <Navbar.Brand href="/">
             <img src={homeImg} alt="" className="shadow-lg rounded" style={{ height: 60, width: 150 }} />
@@ -141,7 +141,7 @@ function Header() {
                   </div>
 
                   <div className="navitem">
-                    <NavLink to="/posts" exact>
+                    <NavLink to="/post-api/posts" exact>
                       View Posts
                     </NavLink >
                   </div>
@@ -225,7 +225,7 @@ function Header() {
         <Route path="/profile" exact element={<UserProfile />} />
         <Route path="/userdashboard" exact element={<Userdashboard />} />
         <Route path="/admindashboard" exact element={<Admindashboard />} />
-        <Route path="/posts" exact element={<Posts />} />
+        <Route path="/post-api/posts" exact element={<Posts />} />
         <Route path="/messages" exact element={<Messages />} />
         <Route path="/notifications" exact element={<Notifications />} />
         <Route path="/reportedposts" exact element={<Reportedposts />} />

@@ -59,30 +59,32 @@ function Signup() {
 
   return (
     <Container>
-      <div className="display-2 text-center text-info">Signup</div>
+      <div className="display-2 text-center text-primary">Signup</div>
       <div className="row">
         <div className="col-12 col-sm-8 col-md-6 mx-auto">
           <Form onSubmit={handleSubmit(onFormSubmit)}>
-             {/* username */}
-             <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>
+            {/* name */}
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="name">Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter your Name"
                 {...register("name", { required: true })}
+                id="name"
               />
-              {/* validation error message for username */}
+              {/* validation error message for name */}
               {errors.name && (
                 <p className="text-danger">* Name is required</p>
               )}
             </Form.Group>
             {/* username */}
             <Form.Group className="mb-3">
-              <Form.Label>Username</Form.Label>
+              <Form.Label htmlFor="username">Username</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter Username"
                 {...register("username", { required: true })}
+                id="username"
               />
               {/* validation error message for username */}
               {errors.username && (
@@ -92,11 +94,12 @@ function Signup() {
 
             {/* password */}
             <Form.Group className="mb-3">
-              <Form.Label>Password</Form.Label>
+              <Form.Label htmlFor="password">Password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Enter Password"
                 {...register("password", { required: true })}
+                id="password"
               />
               {/* validation error message for password */}
               {errors.password && (
@@ -106,7 +109,7 @@ function Signup() {
 
             {/* email */}
             <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
+              <Form.Label htmlFor="email">Email</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter email"
@@ -117,6 +120,7 @@ function Signup() {
                     message: "Please enter a valid @my.unt.edu email address",
                   },
                 })}
+                id="email"
               />
               {errors.email && (
                 <p className="text-danger">{errors.email.message}</p>
@@ -125,17 +129,33 @@ function Signup() {
 
             {/* city */}
             <Form.Group className="mb-3">
-              <Form.Label>City</Form.Label>
+              <Form.Label htmlFor="city">City</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter city"
                 {...register("city", { required: true })}
+                id="city"
               />
-              {/* validation error message for password */}
+              {/* validation error message for city */}
               {errors.city && (
                 <p className="text-danger">* City is required</p>
               )}
             </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="security">Security Question</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter any favourite number"
+                {...register("security", { required: true })}
+                id="security"
+              />
+              {/* validation error message for city */}
+              {errors.city && (
+                <p className="text-danger">* This Question is required</p>
+              )}
+            </Form.Group>
+
 
             <Button className="general_button" variant="primary" type="submit">
               Signup <MdLogin />

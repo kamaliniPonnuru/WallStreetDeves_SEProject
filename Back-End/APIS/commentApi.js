@@ -26,7 +26,7 @@ commentApp.post(
             const post = await postCollectionObject.findOne({ _id: new ObjectId(postId) });
 
             const recipient = post.createdBy;
-            const message_notify = username + ' commented on your post' + content
+            const message_notify = username + ' commented on your post ' + content
             const user_type = "user";
             const m_p_type = "comment";
             await notificationsCollectionObject.insertOne({ recipient, message_notify, user_type, m_p_type, createdAt: Date.now() });

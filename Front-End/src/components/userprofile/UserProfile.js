@@ -23,27 +23,20 @@ function UserProfile() {
     console.log("Hi")
     const original_username = userObj.username;
     const updatedUserData = { name, email, username, original_username };
-  
+
     axios.put('http://localhost:4000/user-api/editprofile', updatedUserData)
       .then(response => {
         if (response.status === 200) {
-          alert("Profile updated successfully");
+          alert("Profile updated successfully, Login again to view the changes");
+
           setEditing(false);
-  
-          // Fetch updated user data and update userObj state
-          // Example:
-          // axios.get('http://localhost:4000/user-api/userdata')
-          //   .then(response => {
-          //     setUserObj(response.data);
-          //   })
-          //   .catch(error => console.error(error));
         } else {
           console.error('Error updating profile:', response.data);
         }
       })
       .catch(error => console.error('Error updating profile:', error));
   };
-  
+
 
   return (
     <div className="user-profile-container">
@@ -61,10 +54,17 @@ function UserProfile() {
           <div className="form-group">
             <label>Email:</label>
             {editing ? (
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                pattern="[a-zA-Z0-9._%+-]+@my\.unt\.edu"
+                title="Please enter a valid @my.unt.edu email address"
+              />
             ) : (
               <span>{userObj.email}</span>
             )}
+
           </div>
           <div className="form-group">
             <label>Username:</label>
