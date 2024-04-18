@@ -2,10 +2,33 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './new_event.css';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from './CheckoutForm';
+import { Modal } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+
+
+const stripePromise = loadStripe('');
+
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const { userObj } = useSelector((state) => state.user); // Access userObj from Redux
+
+  const openPaymentDialog = (event) => {
+    setSelectedEvent(event); 
+    console.log(event);
+    setShowPaymentDialog(true);
+  };
+
+  const closePaymentDialog = () => {
+    setShowPaymentDialog(false);
+  };
+
   const buttonStyle = {
     backgroundColor: 'blue',
     color: 'white',
@@ -23,6 +46,7 @@ const Events = () => {
         setEvents(response.data.payload.events);
         setTotalPages(response.data.payload.totalPages);
         console.log(response)
+        console.log("user_id is " + userObj._id);
       } catch (error) {
         console.error("Error fetching events:", error);
       }
@@ -52,6 +76,7 @@ const Events = () => {
   };
 
   return (
+    
     <>
    
     <div className="container mt-5">
@@ -76,16 +101,35 @@ const Events = () => {
             <h3>{event.event_name}</h3>
             <p>Location:{event.location}</p>
             <p>Time: {event.dateTime}</p>
-           
+            
             </div>
             <div className="event-image">
       <img src={event.image_url} alt="Event" />
     </div>
-    <div className="buttons">
-      <button className="btn btn-primary mr-6" onClick={() => handleEditEvent(event)}>Edit</button>
-      <button className="btn btn-danger" onClick={() => handleDeleteEvent(event._id)}>Delete</button>
+    <div className="buttons" style={{ marginTop: '10px' }}>
+        <button className="btn btn-primary mr-6" onClick={() => openPaymentDialog(event)}>
+                <span>Book Tickets</span>
+        </button>
+        <Modal show={showPaymentDialog} onHide={closePaymentDialog}>
+          <Modal.Header closeButton>
+            <Modal.Title>Booking Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Elements stripe={stripePromise}>
+              <CheckoutForm onSuccess={closePaymentDialog} event={selectedEvent} />
+            </Elements>
+          </Modal.Body>
+        </Modal>
+      
+          {userObj._id === event.userId && (
+            <>
+              <button className="btn btn-primary mr-6" onClick={() => handleEditEvent(event)}>Edit</button>
+              <button className="btn btn-danger" onClick={() => handleDeleteEvent(event._id)}>Delete</button>
+            </>
+            )}
     </div>
           </li>
+          
         ))}
       </ul>
       {/* Pagination */}

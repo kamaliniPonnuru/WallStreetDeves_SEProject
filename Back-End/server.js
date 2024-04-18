@@ -33,6 +33,7 @@ mclient.connect(dbUrl)
   let notificationsCollectionObject=dbObj.collection("notificationscollection");
   let likeCollectionObject=dbObj.collection("likeCollectionObject");
   let commentCollectionObject = dbObj.collection("commentcollection")
+  let ticketCollectionObject = dbObj.collection("ticketcollection")
 
   let eventCollectionObject=dbObj.collection("eventcollection");
 
@@ -47,6 +48,7 @@ mclient.connect(dbUrl)
   app.set("notificationsCollectionObject",notificationsCollectionObject);
   app.set("likeCollectionObject",likeCollectionObject);
   app.set("commentCollectionObject",commentCollectionObject);
+  app.set("ticketCollectionObject", ticketCollectionObject);
 
   app.set('eventCollectionObject',eventCollectionObject)
 
@@ -65,6 +67,7 @@ const broadcastApp = require("./APIS/broadcastapi");
 const notificationApp = require("./APIS/notificationApi");
 const commentApp = require("./APIS/commentApi")
 const eventApp=require("./APIS/eventApi")
+const paymentApp = require("./APIS/paymentApi")
 //excute specific middleware based on path
 app.use("/user-api", userApp);
 app.use("/post-api", postApp);
@@ -75,6 +78,7 @@ app.use("/broadcast-api", broadcastApp);
 app.use("/notification-api",notificationApp);
 app.use("/comment-api", commentApp);
 app.use("/event-api", eventApp)
+app.use("/payment-api", paymentApp)
 
 
 // dealing with page refresh
