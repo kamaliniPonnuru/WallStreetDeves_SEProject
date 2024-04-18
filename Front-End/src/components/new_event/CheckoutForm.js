@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 
-
 const CheckoutForm = ({ onSuccess, event}) => {
   const [loading, setLoading] = useState(false);
   const stripe = useStripe();
@@ -16,8 +15,6 @@ const CheckoutForm = ({ onSuccess, event}) => {
   const [showTicketModal, setShowTicketModal] = useState(false);
 
   useEffect( () => {
-     console.log("event is ", event);
-     console.log("user is ", userObj);
      setTotalAmount(event.ticketPrice);
   }, []);
 
@@ -58,6 +55,7 @@ const CheckoutForm = ({ onSuccess, event}) => {
         setTicketId(response.data.ticketId);
         setShowTicketModal(true);
         // onSuccess(); // Call onSuccess callback to close the dialog
+
       } catch (error) {
         console.error('Error processing payment:', error);
         setLoading(false);
@@ -74,9 +72,6 @@ const CheckoutForm = ({ onSuccess, event}) => {
   };
 
   return (
-    
-
-
 
     <div className="container mt-4">
     <h3>Hello, {userObj.name}</h3>
