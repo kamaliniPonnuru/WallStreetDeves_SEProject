@@ -20,7 +20,7 @@ const Events = () => {
   const { userObj } = useSelector((state) => state.user); // Access userObj from Redux
 
   const openPaymentDialog = (event) => {
-    setSelectedEvent(event); 
+    setSelectedEvent(event);
     console.log(event);
     setShowPaymentDialog(true);
   };
@@ -37,7 +37,7 @@ const Events = () => {
     borderRadius: '5px',
     cursor: 'pointer'
   };
-  
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -76,74 +76,74 @@ const Events = () => {
   };
 
   return (
-    
+
     <>
-   
-    <div className="container mt-5">
-      <h1 className="mb-4">Events</h1>
-      <div className='container mt-3' style={{ textDecoration: 'none', marginBottom:20 }}>
-        <div className='col-12'>
-          {/* <div className='col-10'></div> */}
-          <div >
-            <Link to="/new-event" style={{ textDecoration: 'none', marginLeft: 'auto' }}>
-              <button style={buttonStyle}>
-                <span>Add new Event</span>
-                <span style={{ marginLeft: '5px' }}>+</span>
-              </button>
-            </Link>
+
+      <div className="container mt-5">
+        <h1 className="mb-4">Events</h1>
+        <div className='container mt-3' style={{ textDecoration: 'none', marginBottom: 20 }}>
+          <div className='col-12'>
+            {/* <div className='col-10'></div> */}
+            <div >
+              <Link to="/new-event" style={{ textDecoration: 'none', marginLeft: 'auto' }}>
+                <button style={buttonStyle}>
+                  <span>Add new Event</span>
+                  <span style={{ marginLeft: '5px' }}>+</span>
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
-      <ul className="list-group">
-        {events.map(event => (
-          <li key={event._id} className="list-group-item">
-            <div className="event-details">
-            <h3>{event.event_name}</h3>
-            <p>Location:{event.location}</p>
-            <p>Time: {event.dateTime}</p>
-            
-            </div>
-            <div className="event-image">
-      <img src={event.image_url} alt="Event" />
-    </div>
-    <div className="buttons" style={{ marginTop: '10px' }}>
-        <button className="btn btn-primary mr-6" onClick={() => openPaymentDialog(event)}>
-                <span>Book Tickets</span>
-        </button>
-        <Modal show={showPaymentDialog} onHide={closePaymentDialog}>
-          <Modal.Header closeButton>
-            <Modal.Title>Booking Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Elements stripe={stripePromise}>
-              <CheckoutForm onSuccess={closePaymentDialog} event={selectedEvent} />
-            </Elements>
-          </Modal.Body>
-        </Modal>
-      
-          {userObj._id === event.userId && (
-            <>
-              <button className="btn btn-primary mr-6" onClick={() => handleEditEvent(event)}>Edit</button>
-              <button className="btn btn-danger" onClick={() => handleDeleteEvent(event._id)}>Delete</button>
-            </>
-            )}
-    </div>
-          </li>
-          
-        ))}
-      </ul>
-      {/* Pagination */}
-      <nav className="mt-4">
-        <ul className="pagination">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
-            <li key={pageNumber} className={`page-item ${currentPage === pageNumber ? 'active' : ''}`}>
-              <button className="page-link" onClick={() => handlePageChange(pageNumber)}>{pageNumber}</button>
+        <ul className="list-group">
+          {events.map(event => (
+            <li key={event._id} className="list-group-item mb-3 mt-3">
+              <div className="event-details">
+                <h3>{event.event_name}</h3>
+                <p>Location:{event.location}</p>
+                <p>Time: {event.dateTime}</p>
+
+              </div>
+              <div className="event-image">
+                <img src={event.image_url} alt="Event" style={{height:150, width:200}} />
+              </div>
+              <div className="buttons" style={{ marginTop: '10px' }}>
+                <button className="btn btn-primary mr-6" onClick={() => openPaymentDialog(event)}>
+                  <span>Book Tickets</span>
+                </button>
+                <Modal show={showPaymentDialog} onHide={closePaymentDialog}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Booking Details</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Elements stripe={stripePromise}>
+                      <CheckoutForm onSuccess={closePaymentDialog} event={selectedEvent} />
+                    </Elements>
+                  </Modal.Body>
+                </Modal>
+
+                {userObj._id === event.userId && (
+                  <>
+                    <button className="btn btn-primary mr-6" onClick={() => handleEditEvent(event)}>Edit</button>
+                    <button className="btn btn-danger" onClick={() => handleDeleteEvent(event._id)}>Delete</button>
+                  </>
+                )}
+              </div>
             </li>
+
           ))}
         </ul>
-      </nav>
-    </div>
-     </>
+        {/* Pagination */}
+        <nav className="mt-4">
+          <ul className="pagination">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
+              <li key={pageNumber} className={`page-item ${currentPage === pageNumber ? 'active' : ''}`}>
+                <button className="page-link" onClick={() => handlePageChange(pageNumber)}>{pageNumber}</button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </>
   );
 };
 
