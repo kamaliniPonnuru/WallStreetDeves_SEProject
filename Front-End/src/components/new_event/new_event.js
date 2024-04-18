@@ -4,6 +4,7 @@ import './new_event.css';
 import { useForm } from "react-hook-form";
 import { Form, Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 function NewEvent() {
   const {
@@ -12,14 +13,15 @@ function NewEvent() {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
+  const { userObj } = useSelector((state) => state.user); // Access userObj from Redux
 
   const onFormSubmit = async (eventObj) => {
     try {
-
+      eventObj.userId = userObj._id;
       const formData = new FormData();
+
       console.log(eventObj);
       formData.append("eventObj", JSON.stringify(eventObj));
-
       console.log(formData);
       const response = await axios.post("http://localhost:4000/event-api/new-event", formData, {
         headers: {
@@ -29,7 +31,7 @@ function NewEvent() {
 
       console.log("New Event Added:", response.data);
       alert(response.data.message);
-      if (response.data.message == "New Event Added") {
+      if (response.data.message == "New Event Created") {
         navigate('/events')
       }
     } catch (error) {
@@ -89,6 +91,23 @@ function NewEvent() {
             )}
           </Form.Group>
 
+          <Form.Group className="mb-3" controlId="ticketPrice">
+          <Form.Label>Ticket Price ($): </Form.Label>
+          <Form.Control
+            type="number"
+            placeholder="Enter Ticket Price.."
+            {...register("ticketPrice", { required: true, min: 1, max: 1000 })}
+          />
+          {errors.ticketPrice && errors.ticketPrice.type === "required" && (
+            <p className="text-danger">* Ticket Price is required</p>
+          )}
+          {errors.ticketPrice && errors.ticketPrice.type === "min" && (
+            <p className="text-danger">* Ticket Price must be at least $1</p>
+          )}
+          {errors.ticketPrice && errors.ticketPrice.type === "max" && (
+            <p className="text-danger">* Ticket Price must not exceed $1000</p>
+          )}
+        </Form.Group>
 
 
           <Button variant="primary" type="submit">

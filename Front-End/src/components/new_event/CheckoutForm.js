@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { Modal } from 'react-bootstrap';
 
 const CheckoutForm = ({ onSuccess, event}) => {
   const [loading, setLoading] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
   const { userObj } = useSelector((state) => state.user); // Access userObj from Redux
-  const bookingCost = 10;
   const [numberOfTickets, setNumberOfTickets] = useState(1);
   const [totalAmount, setTotalAmount] = useState(100);
+  const [ticketId, setTicketId] = useState(null);
+  const [showTicketModal, setShowTicketModal] = useState(false);
 
   useEffect( () => {
-     console.log("event is ", event);
-     console.log("user is ", userObj);
-     setTotalAmount(bookingCost);
+     setTotalAmount(event.ticketPrice);
   }, []);
 
   const handleSubmit = async (event) => {
@@ -42,15 +42,20 @@ const CheckoutForm = ({ onSuccess, event}) => {
       console.log('[PaymentMethod]', paymentMethod);
       // Send the payment method ID to your server to complete the payment
       try {
-        const response = await axios.post('YOUR_SERVER_ENDPOINT', {
+        const response = await axios.post('http://localhost:4000/payment-api/payment', {
           payment_method_id: paymentMethod.id,
-          amount: totalAmount, // Example amount in cents
-          event: event,
-          currency: 'usd', // Example currency
+          amount: Math.round(totalAmount * 100), 
+          event_id: event._id,
+          userId: userObj._id,
+          no_of_tickets: numberOfTickets,
+          currency: 'usd'
         });
         console.log(response.data);
         setLoading(false);
-        onSuccess(); // Call onSuccess callback to close the dialog
+        setTicketId(response.data.ticketId);
+        setShowTicketModal(true);
+        // onSuccess(); // Call onSuccess callback to close the dialog
+
       } catch (error) {
         console.error('Error processing payment:', error);
         setLoading(false);
@@ -62,94 +67,78 @@ const CheckoutForm = ({ onSuccess, event}) => {
     const newNumberOfTickets = parseInt(e.target.value);
     if (!isNaN(newNumberOfTickets) && newNumberOfTickets > 0 && newNumberOfTickets <= 5) {
       setNumberOfTickets(newNumberOfTickets);
-      setTotalAmount(bookingCost * newNumberOfTickets);
+      setTotalAmount(totalAmount * newNumberOfTickets);
     }
   };
 
   return (
-    // <>
-    // <h3>Hello, {userObj.name}</h3>
-    // <p>Booking Amount: ${bookingCost}</p>
-    //   <label htmlFor="numberOfTickets">Number of Tickets:</label>
-    //   <input
-    //     type="number"
-    //     id="numberOfTickets"
-    //     min="1"
-    //     max="5"
-    //     value={numberOfTickets}
-    //     onChange={handleTicketChange}
-    //   />
-    //   <p>Enter your payment details:</p>
-    // <form onSubmit={handleSubmit}>
-    //   <CardElement
-    //     options={{
-    //       style: {
-    //         base: {
-    //           fontSize: '16px',
-    //           color: '#424770',
-    //           '::placeholder': {
-    //             color: '#aab7c4',
-    //           },
-    //         },
-    //         invalid: {
-    //           color: '#9e2146',
-    //         },
-    //       },
-    //     }}
-    //   />
-    //   <p>Total Amount: ${totalAmount}</p> {/* Display total amount */}
-    //   <button type="submit" disabled={!stripe || loading}>
-    //     {loading ? 'Processing...' : 'Pay'}
-    //   </button>
-    // </form>
-    // </>
-
 
     <div className="container mt-4">
-      <h3>Hello, {userObj.name}</h3>
-      <p>Booking Amount: ${bookingCost}</p>
-      <div className="mb-3">
-        <label htmlFor="numberOfTickets" className="form-label">Number of Tickets:</label>
-        <input
-          type="number"
-          id="numberOfTickets"
-          min="1"
-          max="5"
-          value={numberOfTickets}
-          onChange={handleTicketChange}
-          className="form-control"
-        />
-      </div>
-      <form onSubmit={handleSubmit}>
-        <p>Enter your payment details:</p>
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: '16px',
-                color: '#192059',
-                '::placeholder': {
-                  color: '#000000',
+    <h3>Hello, {userObj.name}</h3>
+    {ticketId === null ? (
+      <>
+        <p>Booking Amount: ${totalAmount}</p>
+        <div className="mb-3">
+          <label htmlFor="numberOfTickets" className="form-label">Number of Tickets:</label>
+          <input
+            type="number"
+            id="numberOfTickets"
+            min="1"
+            max="5"
+            value={numberOfTickets}
+            onChange={handleTicketChange}
+            className="form-control"
+          />
+        </div>
+        <form onSubmit={handleSubmit}>
+          <p>Enter your payment details:</p>
+          <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: '16px',
+                  color: '#192059',
+                  '::placeholder': {
+                    color: '#000000',
+                  },
+                  border: '1px solid #000000',
                 },
-                border: '1px solid #000000',
+                invalid: {
+                  color: '#b01946',
+                },
               },
-              invalid: {
-                color: '#b01946',
-              },
-            },
-          }}
-          className="form-control"
-        />
-        <p>Total Amount: ${totalAmount}</p>
-        <button
-          type="submit"
-          disabled={!stripe || loading}
-          className="btn btn-primary"
-        >
-          {loading ? 'Processing...' : 'Pay'}
-        </button>
-      </form>
-    </div>
+            }}
+            className="form-control"
+          />
+          <p>Total Amount: ${totalAmount}</p>
+          <button
+            type="submit"
+            disabled={!stripe || loading || (ticketId != null)}
+            className="btn btn-primary"
+          >
+            {loading ? 'Processing...' : 'Pay'}
+          </button>
+        </form>
+      </>
+    ) : (
+      <Modal show={showTicketModal} onHide={() => setShowTicketModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Success!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Your ticket ID is: {ticketId}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="btn btn-secondary"
+            onClick={() => setShowTicketModal(false)}
+          >
+            Close
+          </button>
+        </Modal.Footer>
+      </Modal>
+    )}
+  </div>
   );
 };
 
