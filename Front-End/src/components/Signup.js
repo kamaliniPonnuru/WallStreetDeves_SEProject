@@ -12,7 +12,7 @@ function Signup() {
     formState: { errors },
   } = useForm();
 
-  // state for image
+  // state for images
   const navigate = useNavigate();
 
   const onFormSubmit = async (userObj) => {
