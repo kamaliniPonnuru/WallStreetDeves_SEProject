@@ -4,7 +4,7 @@ const app = exp();
 const mclient=require("mongodb").MongoClient;
 const cors = require("cors")
 
-//import path module
+//import path modules 
 const path=require('path');
 
 app.use(cors());
