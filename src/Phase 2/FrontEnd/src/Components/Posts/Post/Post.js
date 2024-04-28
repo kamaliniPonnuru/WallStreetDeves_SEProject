@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { AiFillLike, AiFillDislike } from 'react-icons/ai';
 import './Post.css'
-
+const apiUrl = process.env.REACT_APP_URL;
 
 const Post = (props) => {
       const [Article, setArticle] = useState();
@@ -64,7 +64,7 @@ const Post = (props) => {
       useEffect( () => {
         const fetchPost = async ()=>{
             try{
-                const response = await fetch(`http://localhost:4000/post-api/post/${_id}`);
+                const response = await fetch(apiUrl+`/post-api/post/${_id}`);
                 const result = await response.json();
                 console.log(result);
                 setArticle(result);

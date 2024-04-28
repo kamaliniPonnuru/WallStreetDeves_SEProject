@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Card, Button } from "react-bootstrap"; // Import Bootstrap components
+const apiUrl = process.env.REACT_APP_URL;
 
 function Reportedposts() {
   const [reportedPosts, setReportedPosts] = useState([]);
@@ -8,7 +9,7 @@ function Reportedposts() {
 
   const fetchReportedPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/post-api/reportedposts");
+      const response = await axios.get(apiUrl+'/post-api/reportedposts');
       setReportedPosts(response.data);
     } catch (error) {
       console.error("Error fetching reported posts:", error);
@@ -21,8 +22,8 @@ function Reportedposts() {
 
   const handleDeletePost = async (reportpostId, postId) => {
     try {
-      await axios.delete(`http://localhost:4000/post-api/delete-post/${postId}`);
-      await axios.delete(`http://localhost:4000/post-api/report-post-delete/${reportpostId}`);
+      await axios.delete(apiUrl+`/post-api/delete-post/${postId}`);
+      await axios.delete(apiUrl+`/post-api/report-post-delete/${reportpostId}`);
       
       fetchReportedPosts();
     } catch (error) {

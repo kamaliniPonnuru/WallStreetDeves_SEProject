@@ -3,6 +3,7 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
+const apiUrl = process.env.REACT_APP_URL;
 
 const CheckoutForm = ({ onSuccess, event}) => {
   const [loading, setLoading] = useState(false);
@@ -42,7 +43,7 @@ const CheckoutForm = ({ onSuccess, event}) => {
       console.log('[PaymentMethod]', paymentMethod);
       // Send the payment method ID to your server to complete the payment
       try {
-        const response = await axios.post('http://localhost:4000/payment-api/payment', {
+        const response = await axios.post(apiUrl+'/payment-api/payment', {
           payment_method_id: paymentMethod.id,
           amount: Math.round(totalAmount * 100), 
           event_id: event._id,

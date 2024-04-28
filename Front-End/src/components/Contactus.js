@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Card, Button } from 'react-bootstrap';
+const apiUrl = process.env.REACT_APP_URL;
 
 function ContactUs() {
   const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ function ContactUs() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:4000/contactus-api/send-inquiry', formData);
+      await axios.post(apiUrl+'/contactus-api/send-inquiry', formData);
       setAlertMessage('Message sent successfully');
     } catch (error) {
       console.error('Error sending message:', error);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+const apiUrl = process.env.REACT_APP_URL;
 
 function Notifications() {
     const [notifications, setNotifications] = useState([]);
@@ -12,7 +13,7 @@ function Notifications() {
         const fetchNotifications = async () => {
             try {
                 const username = userObj.username;
-                const response = await axios.get(`http://localhost:4000/notification-api/get-notifications/${username}`);
+                const response = await axios.get(apiUrl+`/notification-api/get-notifications/${username}`);
                 setNotifications(response.data.payload.your_notifications);
             } catch (error) {
                 console.error("Error fetching notifications:", error);

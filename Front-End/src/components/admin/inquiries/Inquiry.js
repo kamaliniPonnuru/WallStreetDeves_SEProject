@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Card } from "react-bootstrap";
+const apiUrl = process.env.REACT_APP_URL;
 
 function Inquiry() {
   const [inquiries, setInquiries] = useState([]);
@@ -8,7 +9,7 @@ function Inquiry() {
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/contactus-api/get-inquiry");
+        const response = await axios.get(apiUrl+'/contactus-api/get-inquiry');
         setInquiries(response.data);
       } catch (error) {
         console.error("Error fetching inquiries:", error);

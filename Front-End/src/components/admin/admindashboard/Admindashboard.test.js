@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import axios from 'axios';
 import Admindashboard from './Admindashboard'; // Adjust the import path as needed
 import MockAdapter from 'axios-mock-adapter';
+const apiUrl = process.env.REACT_APP_URL;
 
 // Initialize axios mock
 const mock = new MockAdapter(axios);
@@ -12,7 +13,7 @@ describe('Admindashboard', () => {
   it('successfully sends a message', async () => {
     // Mock any POST request to /broadcast-api/send-message
     // args for reply are (status, data, headers)
-    mock.onPost("http://localhost:4000/broadcast-api/send-message").reply(200, {
+    mock.onPost(apiUrl+'/broadcast-api/send-message').reply(200, {
       message: "Message sent successfully",
     });
 
@@ -34,7 +35,7 @@ describe('Admindashboard', () => {
 
   it('fails to send a message', async () => {
     // Mock a failure response for the POST request
-    mock.onPost("http://localhost:4000/broadcast-api/send-message").networkError();
+    mock.onPost(apiUrl+'/broadcast-api/send-message').networkError();
 
     render(<Admindashboard />);
 

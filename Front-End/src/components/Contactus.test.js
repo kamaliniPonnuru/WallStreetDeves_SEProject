@@ -25,7 +25,7 @@ describe('ContactUs Component', () => {
     // Wait for the success message to appear
     await waitFor(() => {
       expect(screen.getByRole('alert')).toHaveTextContent('Message sent successfully');
-      expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/contactus-api/send-inquiry', {
+      expect(axios.post).toHaveBeenCalledWith(apiUrl+'contactus-api/send-inquiry', {
         name: 'John Doe',
         email: 'johndoe@example.com',
         subject: 'general', // This is the default value as set in your initial form state

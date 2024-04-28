@@ -10,7 +10,7 @@ import { Link, Routes, Route } from 'react-router-dom';
 import NewPost from "../NewPost/NewPost";
 import Post from './Post/Post';
 import TempPost from './TempPost/TempPost';
-
+const apiUrl = process.env.REACT_APP_URL;
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -22,7 +22,6 @@ const Posts = () => {
   const { userObj } = useSelector((state) => state.user); // Access userObj from Redux
   const filteredPosts = viewType === 'all' ? posts.filter(post => post.createdBy != userObj.username) : posts.filter(post => post.createdBy === userObj.username);
   const [liked, setLiked] = useState(false);
-  const url = "http://localhost:4000";
 
   useEffect(() => {
     fetchPosts();
@@ -30,7 +29,7 @@ const Posts = () => {
 
   const fetchPosts = async () => {
     try {
-      let url = 'http://localhost:4000/post-api/posts';
+      let url = apiUrl+'/post-api/posts';
       let createdByParam = '';
       if (viewType === 'my') {
         createdByParam = `?createdBy=${userObj.name}`;
@@ -54,7 +53,7 @@ const Posts = () => {
   const handleDeletePost = async (postId) => {
     try {
       console.log(postId);
-      await axios.delete(`http://localhost:4000/post-api/delete-post/${postId}`);
+      await axios.delete(apiUrl+`/post-api/delete-post/${postId}`);
       // Assuming the delete operation was successful, update the UI by refetching the posts
       fetchPosts();
     } catch (error) {
@@ -65,7 +64,7 @@ const Posts = () => {
   const handleReportPost = async (postId) => {
     // Implement report post functionality here
     try {
-      const response = await axios.post(`http://localhost:4000/post-api/reportpost/${postId}`);
+      const response = await axios.post(apiUrl+`/post-api/reportpost/${postId}`);
       if (response.data.message === "Post reported successfully") {
         alert("Post reported successfully");
       }
@@ -87,7 +86,7 @@ const Posts = () => {
   const handleSaveEdit = async () => {
     try {
       // Send the updated post details to the backend
-      await axios.put(`http://localhost:4000/post-api/edit-post/${editPost._id}`, editPost);
+      await axios.put(apiUrl+`/post-api/edit-post/${editPost._id}`, editPost);
       // Assuming the update operation was successful, close the modal and refresh the posts
       setShowEditModal(false);
       fetchPosts();

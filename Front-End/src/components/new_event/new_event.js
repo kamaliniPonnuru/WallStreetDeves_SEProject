@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { Form, Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
+const apiUrl = process.env.REACT_APP_URL;
 
 function NewEvent() {
   const {
@@ -23,7 +24,7 @@ function NewEvent() {
       console.log(eventObj);
       formData.append("eventObj", JSON.stringify(eventObj));
       console.log(formData);
-      const response = await axios.post("http://localhost:4000/event-api/new-event", formData, {
+      const response = await axios.post(apiUrl+"/event-api/new-event", formData, {
         headers: {
           "Content-Type": 'application/json',
         },

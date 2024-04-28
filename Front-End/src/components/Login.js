@@ -6,6 +6,7 @@ import { userLogin } from "../slices/userSlice";
 import { adminLogin } from "../slices/adminSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+const apiUrl = process.env.REACT_APP_URL;
 
 function Login() {
   const {
@@ -80,7 +81,7 @@ function Login() {
 
   const handleForgotPasswordSubmit = async () => {
     try {
-      const response = await axios.post("http://localhost:4000/user-api/forgotpassword", {
+      const response = await axios.post(apiUrl+'/user-api/forgotpassword', {
         username,
         securityQuestion,
       });
@@ -99,7 +100,7 @@ function Login() {
   const handlePasswordChangeSubmit = async () => {
     try {
       setsecondforgotPasswordError("")
-      const response = await axios.put("http://localhost:4000/user-api/change-password", {
+      const response = await axios.put(apiUrl+'user-api/change-password', {
         username,
         newPassword,
       });

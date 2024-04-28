@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Modal, Button, Form } from 'react-bootstrap';
 import Pagination from 'react-bootstrap/Pagination';
 import './Messages.css';
+const apiUrl = process.env.REACT_APP_URL;
 
 function Messages() {
     const [receivedUserMessages, setReceivedUserMessages] = useState([]);
@@ -41,8 +42,8 @@ function Messages() {
     const fetchReceivedMessages = async () => {
         try {
             const user = userObj.username;
-            const responseUser = await axios.get(`http://localhost:4000/message-api/messages/${user}?page=${currentPage}&pageSize=${pageSize}`);
-            const responseAdmin = await axios.get('http://localhost:4000/broadcast-api/all-messages');
+            const responseUser = await axios.get(apiUrl+`/message-api/messages/${user}?page=${currentPage}&pageSize=${pageSize}`);
+            const responseAdmin = await axios.get(apiUrl+'/broadcast-api/all-messages');
             
             setReceivedUserMessages(responseUser.data.messages);
             setReceivedAdminMessages(responseAdmin.data);
@@ -54,7 +55,7 @@ function Messages() {
 
     const fetchMessagesFromBackend = async () => {
         try {
-            const response = await axios.get('http://localhost:4000/broadcast-api/all-messages');
+            const response = await axios.get(apiUrl+'/broadcast-api/all-messages');
             console.log(response);
             setReceivedAdminMessages(response.data);
         } catch (error) {
@@ -65,7 +66,7 @@ function Messages() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:4000/message-api/send-message', {
+            const response = await axios.post(apiUrl+'/message-api/send-message', {
                 sender: userObj.username,
                 recipient,
                 content

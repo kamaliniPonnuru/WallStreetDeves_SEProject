@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Reportedposts from './Reportedposts'; // Adjust the import path to where your Reportedposts component is located
-
+const apiUrl = process.env.REACT_APP_URL;
 // Initialize mock adapter
 const mock = new MockAdapter(axios);
 
@@ -32,11 +32,11 @@ describe('Reportedposts Component', () => {
     mock.reset();
 
     // Mock GET request for fetching reported posts
-    mock.onGet("http://localhost:4000/post-api/reportedposts").reply(200, reportedPostsBeforeDeletion);
+    mock.onGet("apiUrl/post-api/reportedposts").reply(200, reportedPostsBeforeDeletion);
 
     // Mock DELETE requests for post and report deletion
-    mock.onDelete(`http://localhost:4000/post-api/delete-post/post1`).reply(200);
-    mock.onDelete(`http://localhost:4000/post-api/report-post-delete/report1`).reply(200);
+    mock.onDelete(apiUrl+`/post-api/delete-post/post1`).reply(200);
+    mock.onDelete(apiUrl+`/post-api/report-post-delete/report1`).reply(200);
   });
 
   it('handles post deletion correctly', async () => {
@@ -49,7 +49,7 @@ describe('Reportedposts Component', () => {
     fireEvent.click(screen.getByText('Delete'));
 
     // Mock the second GET request to fetch reported posts, simulating the state after deletion
-    mock.onGet("http://localhost:4000/post-api/reportedposts").reply(200, reportedPostsAfterDeletion);
+    mock.onGet(apiUrl+"/post-api/reportedposts").reply(200, reportedPostsAfterDeletion);
 
     // Verify the post is removed after deletion
     await waitFor(() => expect(screen.queryByText('Post 1')).not.toBeInTheDocument());

@@ -3,6 +3,7 @@ import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import axios from 'axios';
 import ContactUs from './Contactus.js'; // Adjust the import path to match your file structure
+const apiUrl = process.env.REACT_APP_URL;
 
 // Mock axios to handle the POST request
 jest.mock('axios');
@@ -25,7 +26,7 @@ describe('ContactUs Component', () => {
     // Wait for the success message to appear
     await waitFor(() => {
       expect(screen.getByRole('alert')).toHaveTextContent('Message sent successfully');
-      expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/contactus-api/send-inquiry', {
+      expect(axios.post).toHaveBeenCalledWith(apiUrl+'/contactus-api/send-inquiry', {
         name: 'John Doe',
         email: 'johndoe@example.com',
         subject: 'general', // This is the default value as set in your initial form state
