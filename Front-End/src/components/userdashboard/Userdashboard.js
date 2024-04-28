@@ -40,7 +40,7 @@ function Userdashboard() {
             </Link>
           </div>
           <div class="user-dashboard-cards">
-            <Link eventKey="11" as={NavLink} to="/posts" exact>
+            <Link eventKey="11" as={NavLink} to="/post-api/posts" exact>
               <figure class="user-dashboard-card">
                 <figcaption class="user-dashboard-card_title">
                   Posts
@@ -95,7 +95,7 @@ function Userdashboard() {
             <Routes>
               <Route path="/new-post" element={<NewPost />} />
               <Route path="/profile" element={<UserProfile />} />
-              <Route path="/posts" element={<Posts />} />
+              <Route path="/post-api/posts" element={<Posts />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/events" element={<Events />} />
