@@ -5,6 +5,7 @@ import './NewPost.css';
 import { useForm } from "react-hook-form";
 import { Form, Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+const apiUrl = process.env.REACT_APP_URL;
 
 function NewPost() {
   const {
@@ -25,7 +26,7 @@ function NewPost() {
       formData.append("postObj", JSON.stringify(postObj));
 
       console.log(formData);
-      const response = await axios.post("http://localhost:4000/post-api/new-post", formData, {
+      const response = await axios.post(apiUrl+"/post-api/new-post", formData, {
         headers: {
           "Content-Type": 'application/json',
         },

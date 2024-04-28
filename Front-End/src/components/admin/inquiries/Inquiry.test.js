@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Inquiry from './Inquiry'; // Adjust the import path as needed
+const apiUrl = process.env.REACT_APP_URL;
 
 // Initialize axios mock
 const mock = new MockAdapter(axios);
@@ -17,7 +18,7 @@ describe('Inquiry Component', () => {
       { _id: '2', name: 'Jane Doe', email: 'jane@example.com', subject: 'Another Test Subject', message: 'Another Test Message' },
     ];
 
-    mock.onGet("http://localhost:4000/contactus-api/get-inquiry").reply(200, inquiries);
+    mock.onGet(apiUrl+'/contactus-api/get-inquiry').reply(200, inquiries);
 
     render(<Inquiry />);
 

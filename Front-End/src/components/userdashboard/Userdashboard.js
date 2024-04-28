@@ -12,7 +12,7 @@ import Messages from "../messages/Messages";
 import Notifications from "../notifications/Notifications";
 import NewEvent from "../new_event/new_event";
 import Events from "../new_event/get_event";
-
+import DonateNow from "../DonateNow";
 
 function Userdashboard() {
   let { userObj } = useSelector((state) => state.user);
@@ -75,6 +75,15 @@ function Userdashboard() {
               </figure>
             </Link>
           </div>
+          <div class="user-dashboard-cards">
+            <Link eventKey="15" as={NavLink} to="/donate" exact>
+              <figure class="user-dashboard-card">
+                <figcaption class="user-dashboard-card_title">
+                  Donate
+                </figcaption>
+              </figure>
+            </Link>
+          </div>
         </div>
 
 
@@ -91,6 +100,7 @@ function Userdashboard() {
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/events" element={<Events />} />
               <Route path="/new-event" element={<NewEvent />} />
+              <Route path="/donate" element={<DonateNow />} />
             </Routes>
           </div>
         </div>

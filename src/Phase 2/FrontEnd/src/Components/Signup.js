@@ -4,6 +4,7 @@ import { Form, Button, Container } from "react-bootstrap";
 import { MdLogin } from "react-icons/md";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const apiUrl = process.env.REACT_APP_URL;
 
 function Signup() {
   const {
@@ -24,7 +25,7 @@ function Signup() {
 
       // http post req
       console.log(formData);
-      const response = await axios.post("http://localhost:4000/user-api/create-user", formData, {
+      const response = await axios.post(apiUrl+"/user-api/create-user", formData, {
         headers: {
           "Content-Type": 'application/json',
         },

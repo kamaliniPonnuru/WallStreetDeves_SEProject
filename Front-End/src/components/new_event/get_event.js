@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom';
 import './new_event.css';
 import { Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from './CheckoutForm';
+const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
+const apiUrl = process.env.REACT_APP_URL;
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -15,7 +20,7 @@ const Events = () => {
   const { userObj } = useSelector((state) => state.user); // Access userObj from Redux
 
   const openPaymentDialog = (event) => {
-    setSelectedEvent(event);
+    setSelectedEvent(event); 
     setShowPaymentDialog(true);
   };
 
@@ -41,7 +46,7 @@ const Events = () => {
 
   const handleDeleteEvent = async (eventId) => {
     try {
-      await axios.delete(`http://localhost:4000/event-api/events/${eventId}`);
+      await axios.delete(apiUrl+`/event-api/events/${eventId}`);
       // Update the events list after deletion
       const updatedEvents = events.filter(event => event._id !== eventId);
       setEvents(updatedEvents);
@@ -63,7 +68,7 @@ const Events = () => {
   const handleSaveChanges = async () => {
     try {
       const eventId = editedEvent._id;
-      await axios.put(`http://localhost:4000/event-api/update-events/${eventId}`, editedEvent);
+      await axios.put(apiUrl+`/event-api/update-events/${eventId}`, editedEvent);
       // Update the events list after editing
       const updatedEvents = events.map(event =>
         event._id === editedEvent._id ? editedEvent : event
@@ -78,7 +83,7 @@ const Events = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/event-api/events?visibility=public&page=${currentPage}`);
+        const response = await axios.get(apiUrl+`/event-api/events?visibility=public&page=${currentPage}`);
         setEvents(response.data.payload.events);
         setTotalPages(response.data.payload.totalPages);
       } catch (error) {
@@ -124,6 +129,16 @@ const Events = () => {
                 <button className="btn btn-primary mr-6" onClick={() => openPaymentDialog(event)}>
                   <span>Book Tickets</span>
                 </button>
+                <Modal show={showPaymentDialog} onHide={closePaymentDialog}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Booking Details</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Elements stripe={stripePromise}>
+                      <CheckoutForm onSuccess={closePaymentDialog} event={selectedEvent} />
+                    </Elements>
+                  </Modal.Body>
+                </Modal>
                 {userObj._id === event.userId && (
                   <>
                     <button className="btn btn-primary mr-6" onClick={() => openEditDialog(event)}>Edit</button>

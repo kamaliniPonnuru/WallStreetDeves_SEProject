@@ -25,8 +25,15 @@ import Notifications from "../notifications/Notifications";
 import Post from "../Posts/Post/Post";
 import NewEvent from "../new_event/new_event";
 import Events from "../new_event/get_event";
+import DonateNow from "../DonateNow";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe('pk_test_51P5rdsP9Ok8DmdR9KLz2PgjDUr0E9f57zLmGZvlfwBAeb6d7lxSOaUgLv0cUE49VONJNve7qepuR5sTB9vDnRV6j008PbB03PQ');
+
 
 function Header() {
+
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("")
@@ -231,6 +238,9 @@ function Header() {
         <Route path="/reportedposts" exact element={<Reportedposts />} />
         <Route path="/inquiries" exact element={<Inquiry />} />
         <Route path="/post/:id" element={<Post/>}/>
+        <Route path="/donate" element={<Elements stripe={stripePromise}>
+              <DonateNow />
+            </Elements>} />
       </Routes>
 
       {/* Change Password Modal */}

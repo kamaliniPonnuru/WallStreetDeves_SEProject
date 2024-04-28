@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
+const apiUrl = process.env.REACT_APP_URL;
 
 function Admindashboard() {
   const [message, setMessage] = useState("");
@@ -10,7 +11,7 @@ function Admindashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/broadcast-api/send-message", { message });
+      const response = await axios.post(apiUrl+"/broadcast-api/send-message", { message });
       setSuccess(response.data.message);
       setError("");
       setMessage("");

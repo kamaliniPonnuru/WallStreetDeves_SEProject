@@ -32,9 +32,9 @@ mclient.connect(dbUrl)
   let broadcastCollectionObject=dbObj.collection("broadcastcollection");
   let notificationsCollectionObject=dbObj.collection("notificationscollection");
   let likeCollectionObject=dbObj.collection("likeCollectionObject");
-  let commentCollectionObject = dbObj.collection("commentcollection")
-  let ticketCollectionObject = dbObj.collection("ticketcollection")
-
+  let commentCollectionObject = dbObj.collection("commentcollection");
+  let ticketCollectionObject = dbObj.collection("ticketcollection");
+  let donationCollectionObject = dbObj.collection("donationcollection");
   let eventCollectionObject=dbObj.collection("eventcollection");
 
   //sharing collection objects to APIs
@@ -49,7 +49,7 @@ mclient.connect(dbUrl)
   app.set("likeCollectionObject",likeCollectionObject);
   app.set("commentCollectionObject",commentCollectionObject);
   app.set("ticketCollectionObject", ticketCollectionObject);
-
+  app.set("donationCollectionObject", donationCollectionObject);
   app.set('eventCollectionObject',eventCollectionObject)
 
   console.log("DB connection success")
@@ -68,6 +68,7 @@ const notificationApp = require("./APIS/notificationApi");
 const commentApp = require("./APIS/commentApi")
 const eventApp=require("./APIS/eventApi")
 const paymentApp = require("./APIS/paymentApi")
+const donationApp = require("./APIS/donationApi")
 //excute specific middleware based on path
 app.use("/user-api", userApp);
 app.use("/post-api", postApp);
@@ -77,9 +78,9 @@ app.use("/contactus-api", contactusApp);
 app.use("/broadcast-api", broadcastApp);
 app.use("/notification-api",notificationApp);
 app.use("/comment-api", commentApp);
-app.use("/event-api", eventApp)
-app.use("/payment-api", paymentApp)
-
+app.use("/event-api", eventApp);
+app.use("/payment-api", paymentApp);
+app.use("/donation-api", donationApp);
 
 // dealing with page refresh
 app.use('/',(request,response)=>{

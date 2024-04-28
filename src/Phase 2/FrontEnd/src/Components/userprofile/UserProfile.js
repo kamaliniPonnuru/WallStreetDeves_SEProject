@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import './UserProfile.css'; // Import CSS file for styling
+const apiUrl = process.env.REACT_APP_URL;
 
 function UserProfile() {
   const [editing, setEditing] = useState(false);
@@ -24,7 +25,7 @@ function UserProfile() {
     const original_username = userObj.username;
     const updatedUserData = { name, email, username, original_username };
   
-    axios.put('http://localhost:4000/user-api/editprofile', updatedUserData)
+    axios.put(apiUrl+'/user-api/editprofile', updatedUserData)
       .then(response => {
         if (response.status === 200) {
           alert("Profile updated successfully");
