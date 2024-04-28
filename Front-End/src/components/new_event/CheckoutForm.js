@@ -66,6 +66,7 @@ const CheckoutForm = ({ onSuccess, event}) => {
 
   const handleTicketChange = (e) => {
     const newNumberOfTickets = parseInt(e.target.value);
+    console.log("newNumberOfTickets " + newNumberOfTickets);
     if (!isNaN(newNumberOfTickets) && newNumberOfTickets > 0 && newNumberOfTickets <= 5) {
       setNumberOfTickets(newNumberOfTickets);
       setTotalAmount(totalAmount * newNumberOfTickets);
