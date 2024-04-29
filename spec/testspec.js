@@ -56,14 +56,10 @@ describe("SWE Project", function() {
         expect(type(base_url)).toBeDefined();
         expect(BADQUERY).toBeDefined();
         expect(application).toBeDefined();
+        expect(console.log(application.route('1'))).toBeDefined()
+        expect(console.log(application.route('1'))).toBe("Route { path: '1', stack: [], methods: {} }")
         done();
       });
     });    
-
-
   });
 });
-
-/*console.log(application)
-console.log(application.route('1'));
-console.log(application.subscribe());*/
