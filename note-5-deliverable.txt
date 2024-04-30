@@ -1,0 +1,18 @@
+Note-5-devlierable.txt - that contains the directory information for files submitted this deliverable.
+
+WallStreetDevs_Deliverable_5.pdf - This is deliverable 5 doc submitted in the canvas. It can found at 
+https://github.com/kamaliniPonnuru/WallStreetDeves_SEProject/tree/main/Deliverable5 this location.
+
+For Project web address and manual submission - Document named ' Web address and Manual_ AlmaMingle_WallStreetDevs.docx ' is submitted and uploaded in the Github as well.
+
+WallStreetDevs-del-5.pptx - This includes the PPT that is uploaded for the presenation. 
+
+LInk to Video - 
+
+In Github, in Source Code folder - Phase 3 Folder - It contains the source code files for Front-end and Back-end.
+
+Meeting Minutes Apr 16, 23 & 29 are uploaded in the meeting minutes folder which is recorded for the devlierable 5. It can found at https://github.com/kamaliniPonnuru/WallStreetDeves_SEProject/tree/main/Meeting_Minutes
+
+Updated in trello whenever we had a Team's call.  It can found at https://trello.com/b/IiDZULgO/wallstreetdevsseproject.
+
+Most of the time we used team's call, WhatsApp group chat and WhatsApp calls for our communication purpose. 
