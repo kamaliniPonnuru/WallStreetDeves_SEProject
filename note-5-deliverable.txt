@@ -7,7 +7,7 @@ For Project web address and manual submission - Document named ' Web address and
 
 WallStreetDevs-del-5.pptx - This includes the PPT that is uploaded for the presenation. 
 
-LInk to Video - 
+LInk to Video - https://www.canva.com/design/DAGDQbcpooo/2Ud2FW0FN2jhSnYXwH338A/edit?utm_content=DAGDQbcpooo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 In Github, in Source Code folder - Phase 3 Folder - It contains the source code files for Front-end and Back-end.
 
